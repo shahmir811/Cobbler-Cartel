@@ -1,14 +1,8 @@
+// import axios from 'axios';
+import axios from "../../BaseUrl";
+import router from "../../../routes/router";
 import localForage from "localforage";
-
-export const startLoading = state => (state.loading = true);
-
-export const endLoading = state => (state.loading = false);
-
-export const clearErrors = state => (state.errors = []);
-
-export const setError = (state, payload) => (state.errors = payload);
-
-export const errors = state => state.errors;
+import { isEmpty } from "lodash";
 
 /////////////////////// check token exists in localStorage or not ///////////////////////
 export const checkTokenExists = ({ commit }) => {
@@ -18,4 +12,54 @@ export const checkTokenExists = ({ commit }) => {
         }
         return Promise.resolve(token);
     });
+};
+
+/////////////////////// Login user ///////////////////////
+export const loginUser = async (
+    { state, commit, rootState, dispatch },
+    user
+) => {
+    commit("startLoading");
+    commit("clearErrors");
+
+    try {
+        const response = await axios.post(`auth/login`, user);
+        console.log("RESPONSE: ", response);
+        commit("endLoading");
+
+        dispatch(
+            "flashMessage",
+            {
+                message: "Login successfully",
+                type: "success"
+            },
+            { root: true }
+        );
+
+        // Below code redirects user to intended page after login
+        localForage.getItem("intended").then(name => {
+            if (isEmpty(name)) {
+                // router.push("/home");
+                return;
+            }
+
+            // router.push({ name });
+        });
+    } catch (error) {
+        console.log("ERROR: ", error);
+        if (error.response.status === 422) {
+            commit("setError", error.response.data.errors);
+        }
+        if (error.response.status === 401) {
+            dispatch(
+                "flashMessage",
+                {
+                    message: "Could not sign you in with those credentials",
+                    type: "danger"
+                },
+                { root: true }
+            );
+        }
+        commit("endLoading");
+    }
 };

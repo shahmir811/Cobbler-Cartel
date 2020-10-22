@@ -1,6 +1,7 @@
 <template>
     <div>
         <Navbar />
+        <Alert v-if="message" />
 
         <b-container fluid>
             <template v-if="isAuthenticated">
@@ -23,6 +24,7 @@
 <script>
 import { mapGetters } from "vuex";
 
+import Alert from "./components/Alert/Alert";
 import Navbar from "./components/Navbar/Navbar";
 import SideMenu from "./components/SideMenu/SideMenu";
 
@@ -30,10 +32,12 @@ export default {
     name: "App",
     computed: {
         ...mapGetters({
+            message: "message",
             isAuthenticated: "auth/isAuthenticated"
         })
     },
     components: {
+        Alert,
         Navbar,
         SideMenu
     } // components end here

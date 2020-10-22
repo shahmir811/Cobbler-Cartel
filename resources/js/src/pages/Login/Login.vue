@@ -1,6 +1,7 @@
 <template>
     <div class="login-page-wrapping-div">
         <div class="login-page-box">
+            <h1 class="login-page-login-title">Login</h1>
             <b-form @submit.prevent="onSubmit">
                 <b-form-group
                     id="input-group-1"
@@ -13,7 +14,11 @@
                         v-model="form.email"
                         type="text"
                         placeholder="Enter email"
+                        :class="{ 'is-invalid': errors.email }"
                     ></b-form-input>
+                    <span class="invalid-feedback" v-if="errors.email">
+                        <strong>{{ errors.email[0] }}</strong>
+                    </span>
                 </b-form-group>
 
                 <b-form-group
@@ -30,20 +35,32 @@
                     ></b-form-input>
                 </b-form-group>
 
-                <b-button type="submit" class="login-page-submit-button">
-                    Submit
+                <b-button
+                    type="submit"
+                    class="login-page-submit-button"
+                    :disabled="loading"
+                >
+                    <template v-if="loading"
+                        ><b-spinner small label="Small Spinner"></b-spinner
+                    ></template>
+                    <template v-else>Submit</template>
                 </b-button>
             </b-form>
-            <router-link to="/register" class="goto-register-page">
-                Dont have an account
-            </router-link>
         </div>
     </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+
 export default {
     name: "Login",
+    computed: {
+        ...mapGetters({
+            loading: "auth/loading",
+            errors: "auth/errors"
+        })
+    },
     data() {
         return {
             form: {
@@ -53,10 +70,15 @@ export default {
         };
     }, // data ends here
     methods: {
+        ...mapActions({
+            loginUser: "auth/loginUser",
+            removeAllErrors: "auth/removeAllErrors"
+        }),
         onSubmit(e) {
             e.preventDefault();
-            console.log("EMAIL: ", this.form.email);
-            console.log("PASSWORD: ", this.form.password);
+            this.loginUser(this.form);
+            // console.log("EMAIL: ", this.form.email);
+            // console.log("PASSWORD: ", this.form.password);
         }
     } // methods end here
 };
@@ -84,9 +106,9 @@ export default {
 .login-page-submit-button {
     width: 117px;
     height: 45px;
-    background: $BROWN-10;
+    background: $BROWN-10 !important;
     @extend .semibold-16px-24px;
-    color: $GREY-2;
+    color: $GREY-2 !important;
 
     &:hover {
         @extend .semibold-16px-24px;
@@ -116,5 +138,12 @@ export default {
         @extend .semibold-16px-24px;
         color: $BROWN-10;
     }
+}
+
+.login-page-login-title {
+    text-align: center;
+    color: $BROWN-10 !important;
+    text-decoration: underline;
+    margin-bottom: 50px;
 }
 </style>
