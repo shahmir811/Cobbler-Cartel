@@ -9,6 +9,7 @@ import * as mutations from "./mutations";
 import * as actions from "./actions";
 
 import auth from "./modules/auth";
+import user from "./modules/user";
 
 export default new Vuex.Store({
     state,
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     mutations,
     actions,
     modules: {
-        auth
+        auth,
+        user
     }
 });

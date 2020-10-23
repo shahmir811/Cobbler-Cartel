@@ -1,5 +1,5 @@
 import { isEmpty } from "lodash";
-import axios from "axios";
+import axios from "../store/BaseUrl";
 
 export const setHttpToken = token => {
     if (isEmpty(token)) {

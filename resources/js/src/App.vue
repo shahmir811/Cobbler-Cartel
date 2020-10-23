@@ -2,7 +2,6 @@
     <div>
         <Navbar />
         <Alert v-if="message" />
-
         <b-container fluid>
             <template v-if="isAuthenticated">
                 <b-row class="text-center">

@@ -44,4 +44,14 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }    
 
+    public function hasRole($role)
+    {
+        if ($this->role->name == $role) {
+        return true;
+        }
+
+
+        return false;
+    }
+
 }

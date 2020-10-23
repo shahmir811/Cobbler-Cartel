@@ -23,11 +23,6 @@
                                 >Login</router-link
                             >
                         </b-nav-item>
-                        <b-nav-item href="#">
-                            <router-link to="/register" class="navbar-link"
-                                >Register</router-link
-                            >
-                        </b-nav-item>
                     </b-navbar-nav>
 
                     <b-nav-item-dropdown text="Lang" right>
@@ -47,13 +42,30 @@
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
             </b-collapse>
+            <b-navbar-nav>
+                <b-nav-item href="#" @click.prevent="logout">
+                    Logout
+                </b-nav-item>
+            </b-navbar-nav>
         </b-navbar>
     </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+
 export default {
-    name: "Navbar"
+    name: "Navbar",
+    computed: {
+        ...mapGetters({
+            isAuthenticated: "auth/isAuthenticated"
+        })
+    },
+    methods: {
+        ...mapActions({
+            logout: "auth/logout"
+        })
+    }
 };
 </script>
 

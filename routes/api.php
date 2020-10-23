@@ -16,8 +16,24 @@ Route::group([
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
+    Route::get('me', 'AuthController@me');
 
 });
 
-// Route::post('login', 'API\AuthController@login');
+Route::group([
+    'middleware' => ['auth:api', 'role:admin'],
+    'namespace' => 'App\Http\Controllers\API\Admin',
+    'prefix' => 'admin'
+
+], function () {
+    // Admin Home Controller
+    Route::get('orders-overview', 'HomeController@ordersOverview');
+
+    // Admin User Controller
+    Route::get('users', 'UserController@users');
+    Route::post('add-user', 'UserController@AddUser');
+    Route::post('update-user/{id}', 'UserController@updateUser');
+    Route::post('update-password/{id}', 'UserController@updatePassword');
+
+});
+

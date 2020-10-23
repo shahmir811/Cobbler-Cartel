@@ -7,7 +7,7 @@ use App\Models\{User, Role};
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
-use App\Http\Requests\Auth\{LoginFormRequest, RegisterFormRequest};
+use App\Http\Requests\Auth\{LoginFormRequest};
 
 
 class AuthController extends Controller
@@ -16,22 +16,6 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['login']]);
-    }
-
-    /////////////////////////////////////////////////////////////////////////
-    public function register(RegisterFormRequest $request) 
-    {
-        $newUser = new User;
-        $newUser->name = $request->name;
-        $newUser->email = $request->email;
-        $newUser->role_id = $request->role_id;
-        $newUser->password = bcrypt($request->password);
-        $newUser->save();
-
-        return response() -> json([
-            'status' => 1,
-            'message' => 'New user registered successfully'
-        ], 201);
     }
 
     /////////////////////////////////////////////////////////////////////////
