@@ -9,6 +9,8 @@ import Login from "../pages/Login/Login.vue";
 // Admin Pages
 import AdminHome from "../pages/Admin/Home/Home.vue";
 import AdminUsers from "../pages/Admin/Users/Users.vue";
+import AdminAddUer from "../pages/Admin/Users/AddUser.vue";
+import AdminUpdateUser from "../pages/Admin/Users/UpdateUser.vue";
 // import Register from "../pages/Register/Register.vue";
 
 // Employee Pages
@@ -41,6 +43,18 @@ const router = new Router({
             path: "/admin/users",
             component: AdminUsers,
             name: "admin-users",
+            meta: { guest: false, needsAuth: true }
+        },
+        {
+            path: "/admin/add-user",
+            component: AdminAddUer,
+            name: "admin-add-user",
+            meta: { guest: false, needsAuth: true }
+        },
+        {
+            path: "/admin/update-user/:id",
+            component: AdminUpdateUser,
+            name: "admin-update-user",
             meta: { guest: false, needsAuth: true }
         },
         // Employee Routes

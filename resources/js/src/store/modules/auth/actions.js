@@ -149,3 +149,8 @@ export const attempt = async (
         dispatch("clearAuth");
     }
 };
+
+/////////////////////// Remove errors //////////////////
+export const removeAllErrors = ({ commit }) => {
+    commit("clearErrors");
+};

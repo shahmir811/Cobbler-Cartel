@@ -28,6 +28,7 @@ class UpdateUserFormRequest extends FormRequest
             'role_id' => 'required|integer',
             'email' => "unique:users,email,$this->id,id",
             // 'password' => 'required|min:6',
+            "password" => 'sometimes|nullable|min:6'
         ];
     }
 
