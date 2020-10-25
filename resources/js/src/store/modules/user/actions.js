@@ -86,7 +86,7 @@ export const UpdateUserDetails = async (
     }
 };
 
-/////////////////////// Update User User ///////////////////////
+/////////////////////// Update User ///////////////////////
 export const UpdateUserPassword = async (
     { state, commit, rootState, dispatch },
     data
@@ -112,4 +112,15 @@ export const UpdateUserPassword = async (
         commit("setError", error.response.data.errors);
         commit("setLoading", false);
     }
+};
+
+/////////////////////// Delete User ///////////////////////
+
+export const deleteUser = ({ commit, dispatch, rootState }, userId) => {
+    return axios
+        .delete(`admin/delete-user/${userId}`)
+        .then(() => {
+            commit("removeUserRecord", userId);
+        })
+        .catch(error => console.log(error));
 };

@@ -4,9 +4,13 @@
         <router-link to="/admin/users" class="side-menu-links"
             >Users Management</router-link
         >
-        <a href="#" class="side-menu-links">Order Management</a>
+        <router-link to="/admin/orders" class="side-menu-links"
+            >Order Management</router-link
+        >
         <a href="#" class="side-menu-links">Scan QR code</a>
-        <a href="#" class="side-menu-links">Import Excel File</a>
+        <router-link to="/admin/import-file" class="side-menu-links"
+            >Import Excel File</router-link
+        >
     </div>
 </template>
 

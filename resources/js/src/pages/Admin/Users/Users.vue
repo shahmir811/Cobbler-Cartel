@@ -39,7 +39,10 @@
                                         aria-hidden="true"
                                     ></i>
                                 </router-link>
-                                <a href="#" class="update-user-delete-link"
+                                <a
+                                    href="#"
+                                    class="update-user-delete-link"
+                                    @click.prevent="onDeleteHandler(user.id)"
                                     ><i
                                         class="fa fa-trash-o"
                                         aria-hidden="true"
@@ -85,10 +88,34 @@ export default {
     methods: {
         ...mapActions({
             fetchUsers: "user/fetchUsers",
-            UpdateUserPassword: "user/UpdateUserPassword"
+            UpdateUserPassword: "user/UpdateUserPassword",
+            deleteUser: "user/deleteUser"
         }),
         capitalize(role) {
             return role[0].toUpperCase() + role.slice(1);
+        },
+        onDeleteHandler(userId) {
+            this.$swal
+                .fire({
+                    title: "Are you sure to delete this user?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                })
+                .then(result => {
+                    if (result.value) {
+                        this.deleteUser(userId).then(() => {
+                            this.$swal.fire(
+                                "Activated!",
+                                "User has been deleted.",
+                                "success"
+                            );
+                        });
+                    }
+                });
         }
     }
 };

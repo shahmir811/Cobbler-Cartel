@@ -11,6 +11,8 @@ import AdminHome from "../pages/Admin/Home/Home.vue";
 import AdminUsers from "../pages/Admin/Users/Users.vue";
 import AdminAddUer from "../pages/Admin/Users/AddUser.vue";
 import AdminUpdateUser from "../pages/Admin/Users/UpdateUser.vue";
+import AdminOrders from "../pages/Admin/Orders/Orders.vue";
+import AdminImportExcelFile from "../pages/Admin/ImportExcelFile/ImportExcelFile.vue";
 // import Register from "../pages/Register/Register.vue";
 
 // Employee Pages
@@ -55,6 +57,18 @@ const router = new Router({
             path: "/admin/update-user/:id",
             component: AdminUpdateUser,
             name: "admin-update-user",
+            meta: { guest: false, needsAuth: true }
+        },
+        {
+            path: "/admin/orders",
+            component: AdminOrders,
+            name: "admin-orders",
+            meta: { guest: false, needsAuth: true }
+        },
+        {
+            path: "/admin/import-file",
+            component: AdminImportExcelFile,
+            name: "admin-import-file",
             meta: { guest: false, needsAuth: true }
         },
         // Employee Routes

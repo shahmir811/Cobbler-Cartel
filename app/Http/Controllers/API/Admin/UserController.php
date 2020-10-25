@@ -65,5 +65,17 @@ class UserController extends Controller
             'message' => 'User password updated successfully'
         ], 200);        
     }
+
+    /////////////////////////////////////////////////////////////////////////  
+    public function deleteUser($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+                
+        return response() -> json([
+            'status' => 1,
+            'message' => 'User deleted successfully'
+        ], 200);    
+    }    
     
 }

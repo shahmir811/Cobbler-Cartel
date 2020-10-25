@@ -9,3 +9,7 @@ export const setError = (state, payload) => (state.errors = payload);
 export const getUserToUpdate = (state, id) => {
     state.updateUser = state.users.find(user => user.id === id);
 };
+
+export const removeUserRecord = (state, id) => {
+    state.users = state.users.filter(user => user.id !== id);
+};

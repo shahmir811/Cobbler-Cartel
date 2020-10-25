@@ -9,6 +9,10 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
+    protected $dates = ['order_date'];
+
     public function status()
     {
         return $this->belongsTo(Status::class);
@@ -17,6 +21,15 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function (Order $order) {
+            $order->order_dispatch_date = date('Y-m-d', strtotime($order->order_date. ' + 7 days'));
+        });
     }
 
 }

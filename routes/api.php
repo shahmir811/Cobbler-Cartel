@@ -34,6 +34,13 @@ Route::group([
     Route::post('add-user', 'UserController@AddUser');
     Route::post('update-user/{id}', 'UserController@updateUser');
     Route::post('update-password/{id}', 'UserController@updatePassword');
+    Route::delete('delete-user/{id}', 'UserController@deleteUser');
+
+    // Admin Orders Controller
+    Route::get('orders', 'OrderController@getAllOrders');
+
+    // Admin Excel Controller
+    Route::post('upload-file', "ExcelController@importDataToDatabase");
 
 });
 

@@ -15,19 +15,21 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->integer('order_id')->unique();
+            $table->string('order_no')->unique();
 
             $table->date('order_date');
-            $table->timestamp('order_time');
+            $table->time('order_time', 0);
+            $table->date('order_dispatch_date');
+            $table->timestamp('order_received_at', 0);
             $table->string('billing_customer');
-            $table->string('billing_company_name')->nullable();
+            $table->string('billing_company_name')->nullable(); // nullable
             $table->string('billing_country');
             $table->string('billing_state');
             $table->string('billing_city');
             $table->text('billing_address');
             $table->string('billing_zip_code');
             $table->string('delivery_customer');
-            $table->string('delivery_company_name')->nullable();
+            $table->string('delivery_company_name')->nullable(); // nullable
             $table->string('delivery_country');
             $table->string('delivery_state');
             $table->string('delivery_city');
@@ -39,13 +41,13 @@ class CreateOrdersTable extends Migration
             $table->string('delivery_method');
             $table->string('item_name');
             $table->string('item_variant');
-            $table->string('sku')->nullable();
+            $table->string('sku')->nullable(); // nullable
             $table->integer('quantity');
             $table->double('item_price', 8, 2);
             $table->float('item_weight', 4, 2);
-            $table->string('item_custom_text')->nullable();
-            $table->string('coupon')->nullable();
-            $table->text('notes_to_seller')->nullable();
+            $table->string('item_custom_text')->nullable(); // nullable
+            $table->string('coupon')->nullable(); // nullable
+            $table->text('notes_to_seller')->nullable(); // nullable
             $table->integer('shipping');
             $table->integer('tax');
             $table->integer('gift_card');
@@ -55,10 +57,10 @@ class CreateOrdersTable extends Migration
             $table->string('payment');
             $table->string('fulfillment');
             $table->integer('refund');
-            $table->double('total_after_refund', 8, 2);
+            $table->double('total_after_refund', 8, 2); 
             $table->integer('quantity_refunded');
             $table->integer('quatity_restocked');
-            $table->text('additional_info')->nullable();
+            $table->text('additional_info')->nullable(); // nullable
 
 
             $table->foreignId('user_id');
