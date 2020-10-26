@@ -34,7 +34,7 @@ class OrdersImport implements ToModel, WithStartRow
                 "billing_state" => $row[6],
                 "billing_city" => $row[7],
                 "billing_address" => $row[8],
-                "billing_zip_code" => $row[9],
+                "billing_zip_code" => trim($row[9],'"'), // remove quotes from string
                 "delivery_customer" => $row[10],
                 "delivery_company_name" => $row[11],
                 "delivery_country" => $row[12],
@@ -42,7 +42,7 @@ class OrdersImport implements ToModel, WithStartRow
                 "delivery_city" => $row[14],
                 "delivery_address" => $row[15],
                 "delivery_zip_code" => $row[16],
-                "buyer_phone" => $row[17],
+                "buyer_phone" => trim($row[17],'"'), // remove quotes from string
                 "shipping_label" => $row[18],
                 "buyer_email" => $row[19],
                 "delivery_method" => $row[20],

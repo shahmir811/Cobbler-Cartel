@@ -10,6 +10,7 @@ import * as actions from "./actions";
 
 import auth from "./modules/auth";
 import user from "./modules/user";
+import orders from "./modules/orders";
 
 export default new Vuex.Store({
     state,
@@ -18,6 +19,7 @@ export default new Vuex.Store({
     actions,
     modules: {
         auth,
-        user
+        user,
+        orders
     }
 });

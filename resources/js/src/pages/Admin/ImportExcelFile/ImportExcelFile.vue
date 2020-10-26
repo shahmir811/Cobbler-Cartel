@@ -76,12 +76,11 @@ export default {
             this.excel_file = e.target.files[0];
         },
         submitUploadFileForm(e) {
-            console.log(e);
-            // console.log(this.excel_file);
-            // this.excel_file = e.target.files[0];
-            const fd = new FormData();
-            fd.append("import_file", this.excel_file);
-            this.uploadExcelFile(fd);
+            if (this.excel_file) {
+                const fd = new FormData();
+                fd.append("import_file", this.excel_file);
+                this.uploadExcelFile(fd);
+            }
         }
     }
 };

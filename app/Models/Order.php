@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,7 +16,7 @@ class Order extends Model
 
     public function status()
     {
-        return $this->belongsTo(Status::class);
+        return $this->belongsTo(Status::class, 'statuses_id');
     }
 
     public function user()
@@ -30,6 +31,21 @@ class Order extends Model
         static::creating(function (Order $order) {
             $order->order_dispatch_date = date('Y-m-d', strtotime($order->order_date. ' + 7 days'));
         });
+    }
+
+    public function noOfDays($comingDate)
+    {
+        $orderDispatchDate = new DateTime($comingDate);
+        $todayDate = now();
+
+        $diff = 0;
+
+        if($orderDispatchDate >= $todayDate) {
+            $diff = $todayDate->diff($orderDispatchDate)->format("%a");
+        }
+
+
+        return $diff;
     }
 
 }

@@ -1,0 +1,20 @@
+@function bgColor ($status) {
+  @if($status == 'confirmed') {
+    @return $CONFIRMED;
+  
+  } @else if($status == 'upper') {
+    @return $UPPER;
+  
+  } @else if($status=='bottom') {
+      @return $BOTTOM;
+
+  } @else if($status=='finished') {
+      @return $FINISHED;
+
+  } @else if($status=='dispatched') {
+      @return $DISPATCHED;
+
+  } @else {
+    @return $RETURNED;
+  }
+}
