@@ -14,7 +14,10 @@
   } @else if($status=='dispatched') {
       @return $DISPATCHED;
 
-  } @else {
+  } @else if($status == 'returned') {
     @return $RETURNED;
+  
+  } @else {
+      @return $PROCESSING;
   }
 }

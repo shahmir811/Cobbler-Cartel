@@ -2,129 +2,46 @@
     <div class="admin-import-file-wrapping-div">
         <h1 class="admin-orders-managment-main-title">Orders Management</h1>
 
-        <div class="display-orders-summary-div" v-if="orders && !loading">
-            <div
-                class="round-div-showing-order-status processing-status"
-                @click.prevent="getOrderByStatus(null)"
-            >
-                <p>{{ orders.length }}</p>
-                <p>Processing</p>
-            </div>
-            <div
-                class="round-div-showing-order-status confirmed-status"
-                @click.prevent="getOrderByStatus('confirmed')"
-            >
-                <p v-if="countOrdersByStatus.confirmed">
-                    {{ countOrdersByStatus.confirmed.length }}
-                </p>
-                <p>Confirmed</p>
-            </div>
-            <div
-                class="round-div-showing-order-status upper-status"
-                @click.prevent="getOrderByStatus('upper')"
-            >
-                <p v-if="countOrdersByStatus.upper">
-                    {{ countOrdersByStatus.upper.length }}
-                </p>
-                <p>Upper</p>
-            </div>
-            <div
-                class="round-div-showing-order-status bottom-status"
-                @click.prevent="getOrderByStatus('bottom')"
-            >
-                <p v-if="countOrdersByStatus.bottom">
-                    {{ countOrdersByStatus.bottom.length }}
-                </p>
-                <p>Bottom</p>
-            </div>
-            <div
-                class="round-div-showing-order-status dispatched-status"
-                @click.prevent="getOrderByStatus('dispatched')"
-            >
-                <p v-if="countOrdersByStatus.dispatched">
-                    {{ countOrdersByStatus.dispatched.length }}
-                </p>
-                <p>Dispatched</p>
-            </div>
-            <div
-                class="round-div-showing-order-status returned-status"
-                @click.prevent="getOrderByStatus('returned')"
-            >
-                <p v-if="countOrdersByStatus.returned">
-                    {{ countOrdersByStatus.returned.length }}
-                </p>
-                <p>Stock</p>
-            </div>
-        </div>
+        <OrdersSummary :filterOrdersMethod="filterOrders" />
 
-        <b-row v-if="orders && !loading" class="admin-show-orders-table-div">
-            <b-col cols="12">
-                <table class="table table-header table-striped">
-                    <thead class="admin-orders-table-header">
-                        <tr>
-                            <th scope="col">S. No</th>
-                            <th scope="col">Order No.</th>
-                            <th scope="col">Order Received</th>
-                            <th scope="col">Days Left</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Operated By</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody v-if="filteredOrders.length > 0">
-                        <tr
-                            v-for="(order, index) in filteredOrders"
-                            :key="order.id"
-                        >
-                            <td>{{ ++index }}</td>
-                            <td>{{ order.order_no }}</td>
-                            <td>{{ order.order_received_at }}</td>
-                            <td>{{ order.days_left }}</td>
-                            <td>{{ order.total }}</td>
-                            <td>
-                                <strong>{{ capitalize(order.status) }}</strong>
-                            </td>
-                            <td>{{ order.operated_by }}</td>
-                            <td>
-                                <button class="btn btn-success">View</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </b-col>
-        </b-row>
+        <FilterOrders :status="status" />
+
+        <OrdersTable :status="status" />
     </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapActions } from "vuex";
+
+import OrdersSummary from "../../../components/Orders/OrdersSummary";
+import FilterOrders from "../../../components/Orders/FilterOrders";
+import OrdersTable from "../../../components/Orders/OrdersTable";
 
 export default {
-    name: "Admin-ImportExcelFile",
-    computed: {
-        ...mapGetters({
-            loading: "orders/loading",
-            orders: "orders/orders",
-            filteredOrders: "orders/filteredOrders",
-            countOrdersByStatus: "orders/countOrdersByStatus"
-        })
-    },
+    name: "Admin-OrdersManagement",
     mounted() {
         this.getAllOrders();
     },
+    components: {
+        OrdersSummary,
+        FilterOrders,
+        OrdersTable
+    },
     data() {
         return {
-            //
+            status: "processing"
         };
     },
     methods: {
         ...mapActions({
             getAllOrders: "orders/getAllOrders",
-            getOrderByStatus: "orders/getOrderByStatus"
+            getOrderByStatus: "orders/getOrderByStatus",
+            noFilterRecord: "orders/noFilterRecord"
         }),
-        capitalize(order) {
-            return order[0].toUpperCase() + order.slice(1);
+        filterOrders(status) {
+            this.noFilterRecord();
+            this.status = status ? status : "processing";
+            this.getOrderByStatus(this.status);
         }
     }
 };
@@ -160,6 +77,14 @@ export default {
     p {
         margin-bottom: 0px;
     }
+}
+
+.column-containing-filter-text {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 30px;
 }
 
 .processing-status {
@@ -205,33 +130,46 @@ export default {
     }
 }
 
+.daysLeft-0 {
+    background: darken($RETURNED, 1%) !important;
+}
+
+.daysLeft-1 {
+    background: lighten($RETURNED, 5%) !important;
+}
+
 .confirmed {
     // bgColor is a function defined in _functions.scss file
-    color: bgColor("confirmed");
+    background: bgColor("confirmed");
+}
+
+.processing {
+    // bgColor is a function defined in _functions.scss file
+    background: bgColor("processing");
 }
 
 .finished {
     // bgColor is a function defined in _functions.scss file
-    color: bgColor("finished");
+    background: bgColor("finished");
 }
 
 .upper {
     // bgColor is a function defined in _functions.scss file
-    color: bgColor("upper");
+    background: bgColor("upper");
 }
 
 .bottom {
     // bgColor is a function defined in _functions.scss file
-    color: bgColor("bottom");
+    background: bgColor("bottom");
 }
 
 .dispatched {
     // bgColor is a function defined in _functions.scss file
-    color: bgColor("dispatched");
+    background: bgColor("dispatched");
 }
 
 .returned {
     // bgColor is a function defined in _functions.scss file
-    color: bgColor("returned");
+    background: bgColor("returned");
 }
 </style>

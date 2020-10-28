@@ -41,7 +41,7 @@ class Order extends Model
         $diff = 0;
 
         if($orderDispatchDate >= $todayDate) {
-            $diff = $todayDate->diff($orderDispatchDate)->format("%a");
+            $diff = $todayDate->diff($orderDispatchDate)->format("%a") + 1;
         }
 
 

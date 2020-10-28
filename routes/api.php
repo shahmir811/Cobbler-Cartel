@@ -38,6 +38,7 @@ Route::group([
 
     // Admin Orders Controller
     Route::get('orders', 'OrderController@getAllOrders');
+    Route::delete('orders/{id}', 'OrderController@DeleteOrder');
 
     // Admin Excel Controller
     Route::post('upload-file', "ExcelController@importDataToDatabase");
