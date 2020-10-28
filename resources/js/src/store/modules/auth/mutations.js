@@ -32,3 +32,10 @@ export const setToken = (state, token) => {
     }
     localForage.setItem("authtoken", token);
 };
+
+export const resetAuthState = state => {
+    state.loading = false;
+    state.isAuthenticated = false;
+    state.user = null;
+    state.errors = [];
+};

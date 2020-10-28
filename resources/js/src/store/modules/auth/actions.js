@@ -33,15 +33,10 @@ export const loginUser = async (
             { root: true }
         );
 
-        // console.log("USER: ", state.user);
-
         // Below code redirects user to intended page after login
         localForage.getItem("intended").then(name => {
             if (isEmpty(name)) {
-                console.log("USER: ", state.user);
-                let role = state.user.role;
-                router.push({ name: `${role}-home` });
-                // router.push("/home");
+                router.push("/home");
                 return;
             }
 
@@ -153,4 +148,9 @@ export const attempt = async (
 /////////////////////// Remove errors //////////////////
 export const removeAllErrors = ({ commit }) => {
     commit("clearErrors");
+};
+
+/////////////////////// Clear AuthState //////////////////
+export const clearAuthState = ({ state, commit }) => {
+    commit("resetAuthState");
 };

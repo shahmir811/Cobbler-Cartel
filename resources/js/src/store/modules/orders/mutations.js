@@ -36,3 +36,14 @@ export const removeOrderFromOrdersList = (state, id) => {
         order => order.id !== id
     );
 };
+
+export const viewOrderNo = (state, id) => {
+    state.viewOrderDetails = state.orders.find(order => order.id === id);
+};
+
+export const resetOrdersState = state => {
+    state.orders = [];
+    state.loading = false;
+    state.filteredOrders = [];
+    state.viewOrderDetails = null;
+};

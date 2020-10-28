@@ -1,7 +1,8 @@
 const OrdersState = {
     loading: false,
     orders: [],
-    filteredOrders: []
+    filteredOrders: [],
+    viewOrderDetails: null
 };
 
 export default OrdersState;

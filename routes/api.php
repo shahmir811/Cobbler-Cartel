@@ -7,8 +7,10 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+// Must uncomment line-29 in App\Providers\App\Providers to use following namespace
+
 Route::group([
-    'namespace' => 'App\Http\Controllers\API',
+    'namespace' => 'API',
     'prefix' => 'auth'
 
 ], function () {
@@ -22,7 +24,7 @@ Route::group([
 
 Route::group([
     'middleware' => ['auth:api', 'role:admin'],
-    'namespace' => 'App\Http\Controllers\API\Admin',
+    'namespace' => 'API\Admin',
     'prefix' => 'admin'
 
 ], function () {

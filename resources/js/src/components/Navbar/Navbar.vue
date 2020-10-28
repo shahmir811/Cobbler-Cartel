@@ -43,7 +43,7 @@
                 </b-navbar-nav>
             </b-collapse>
             <b-navbar-nav>
-                <b-nav-item href="#" @click.prevent="logout">
+                <b-nav-item href="#" @click.prevent="exitApplication">
                     Logout
                 </b-nav-item>
             </b-navbar-nav>
@@ -63,8 +63,17 @@ export default {
     },
     methods: {
         ...mapActions({
-            logout: "auth/logout"
-        })
+            logout: "auth/logout",
+            clearAuthState: "auth/clearAuthState",
+            clearUserState: "user/clearUserState",
+            clearOrdersState: "orders/clearOrdersState"
+        }),
+        exitApplication() {
+            this.logout();
+            this.clearAuthState();
+            this.clearUserState();
+            this.clearOrdersState();
+        }
     }
 };
 </script>

@@ -6,18 +6,17 @@ Vue.use(Router);
 
 import Landing from "../pages/Landing/Landing.vue";
 import Login from "../pages/Login/Login.vue";
-// Admin Pages
-import AdminHome from "../pages/Admin/Home/Home.vue";
-import AdminUsers from "../pages/Admin/Users/Users.vue";
-import AdminAddUer from "../pages/Admin/Users/AddUser.vue";
-import AdminUpdateUser from "../pages/Admin/Users/UpdateUser.vue";
-import AdminOrders from "../pages/Admin/Orders/Orders.vue";
-import AdminImportExcelFile from "../pages/Admin/ImportExcelFile/ImportExcelFile.vue";
+import Home from "../pages/Auth/Home/Home.vue";
+import Users from "../pages/Auth/Users/Users.vue";
+import AddUer from "../pages/Auth/Users/AddUser.vue";
+import UpdateUser from "../pages/Auth/Users/UpdateUser.vue";
+import Orders from "../pages/Auth/Orders/Orders.vue";
+import ImportExcelFile from "../pages/Auth/ImportExcelFile/ImportExcelFile.vue";
 // import Register from "../pages/Register/Register.vue";
 
 // Employee Pages
-import EmployeeHome from "../pages/Employee/Home/Home.vue";
-import EmployeeImportFile from "../pages/Employee/ImportFile/ImportFile.vue";
+// import EmployeeHome from "../pages/Employee/Home/Home.vue";
+// import EmployeeImportFile from "../pages/Employee/ImportFile/ImportFile.vue";
 
 const router = new Router({
     mode: "history",
@@ -34,54 +33,40 @@ const router = new Router({
             name: "login",
             meta: { guest: true, needsAuth: false }
         },
-        // Admin Routes
         {
-            path: "/admin/home",
-            component: AdminHome,
-            name: "admin-home",
+            path: "/home",
+            component: Home,
+            name: "home",
             meta: { guest: false, needsAuth: true }
         },
         {
-            path: "/admin/users",
-            component: AdminUsers,
-            name: "admin-users",
+            path: "/users",
+            component: Users,
+            name: "users",
             meta: { guest: false, needsAuth: true }
         },
         {
-            path: "/admin/add-user",
-            component: AdminAddUer,
-            name: "admin-add-user",
+            path: "/add-user",
+            component: AddUer,
+            name: "add-user",
             meta: { guest: false, needsAuth: true }
         },
         {
-            path: "/admin/update-user/:id",
-            component: AdminUpdateUser,
-            name: "admin-update-user",
+            path: "/update-user/:id",
+            component: UpdateUser,
+            name: "update-user",
             meta: { guest: false, needsAuth: true }
         },
         {
-            path: "/admin/orders",
-            component: AdminOrders,
-            name: "admin-orders",
+            path: "/orders",
+            component: Orders,
+            name: "orders",
             meta: { guest: false, needsAuth: true }
         },
         {
-            path: "/admin/import-file",
-            component: AdminImportExcelFile,
-            name: "admin-import-file",
-            meta: { guest: false, needsAuth: true }
-        },
-        // Employee Routes
-        {
-            path: "/employee/home",
-            component: EmployeeHome,
-            name: "employee-home",
-            meta: { guest: false, needsAuth: true }
-        },
-        {
-            path: "/employee/import-file",
-            component: EmployeeImportFile,
-            name: "employee-import-file",
+            path: "/import-file",
+            component: ImportExcelFile,
+            name: "import-file",
             meta: { guest: false, needsAuth: true }
         }
     ]

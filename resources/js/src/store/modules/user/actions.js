@@ -39,7 +39,7 @@ export const addNewUser = async (
 
         commit("setLoading", false);
 
-        router.push("/admin/users");
+        router.push("/users");
     } catch (error) {
         console.log(error);
         commit("setError", error.response.data.errors);
@@ -52,7 +52,6 @@ export const selectUserToUpdate = (
     { state, commit, rootState, dispatch },
     id
 ) => {
-    console.log("USER to update: ", id);
     commit("getUserToUpdate", id);
 };
 
@@ -78,7 +77,7 @@ export const UpdateUserDetails = async (
 
         commit("setLoading", false);
 
-        router.push("/admin/users");
+        router.push("/users");
     } catch (error) {
         console.log(error);
         commit("setError", error.response.data.errors);
@@ -123,4 +122,9 @@ export const deleteUser = ({ commit, dispatch, rootState }, userId) => {
             commit("removeUserRecord", userId);
         })
         .catch(error => console.log(error));
+};
+
+/////////////////////// Clear all users state ///////////////////////
+export const clearUserState = ({ state, commit }) => {
+    commit("resetUserState");
 };

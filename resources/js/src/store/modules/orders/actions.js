@@ -49,3 +49,11 @@ export const removeOrder = async (
         console.log(error);
     }
 };
+
+export const getOrderDetails = ({ state, commit }, id) => {
+    commit("viewOrderNo", id);
+};
+
+export const clearOrdersState = ({ state, commit }) => {
+    commit("resetOrdersState");
+};

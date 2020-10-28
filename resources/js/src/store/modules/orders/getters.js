@@ -8,3 +8,5 @@ export const countOrdersByStatus = state => {
     const result = _.groupBy(state.orders, "status");
     return result;
 };
+
+export const viewOrderDetails = state => state.viewOrderDetails;

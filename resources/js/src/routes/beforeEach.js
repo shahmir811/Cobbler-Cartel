@@ -6,18 +6,9 @@ const beforeEach = (to, from, next) => {
         .dispatch("auth/checkTokenExists")
         .then(() => {
             if (to.meta.guest) {
-                localforage.getItem("userRole", role => {
-                    if (!role) {
-                        next({ name: "login" });
-                    } else {
-                        next({ name: `${role}-home` });
-                    }
-                });
-                // next({ name: "home" });
-                // next({ name: "landing" });
+                next({ name: "home" });
                 return;
             }
-
             next();
         })
         .catch(() => {

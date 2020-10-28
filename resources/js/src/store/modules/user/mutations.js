@@ -13,3 +13,10 @@ export const getUserToUpdate = (state, id) => {
 export const removeUserRecord = (state, id) => {
     state.users = state.users.filter(user => user.id !== id);
 };
+
+export const resetUserState = state => {
+    state.users = [];
+    state.loading = false;
+    state.errors = [];
+    state.updateUser = null;
+};

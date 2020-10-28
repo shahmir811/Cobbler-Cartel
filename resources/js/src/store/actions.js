@@ -27,7 +27,7 @@ export const uploadExcelFile = async (
             type: "success"
         });
 
-        router.push({ name: "admin-orders" });
+        router.push({ name: "orders" });
         commit("setLoading", false);
     } catch (error) {
         console.log(error);

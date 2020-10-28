@@ -1,14 +1,14 @@
 <template>
     <div class="sidemenu-component-wrapping-div">
-        <router-link to="/admin/home" class="side-menu-links">Home</router-link>
-        <router-link to="/admin/users" class="side-menu-links"
+        <router-link to="/home" class="side-menu-links">Home</router-link>
+        <router-link to="/users" class="side-menu-links"
             >Users Management</router-link
         >
-        <router-link to="/admin/orders" class="side-menu-links"
+        <router-link to="/orders" class="side-menu-links"
             >Order Management</router-link
         >
         <a href="#" class="side-menu-links">Scan QR code</a>
-        <router-link to="/admin/import-file" class="side-menu-links"
+        <router-link to="/import-file" class="side-menu-links"
             >Import Excel File</router-link
         >
     </div>
