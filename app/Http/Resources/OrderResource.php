@@ -29,6 +29,15 @@ class OrderResource extends JsonResource
             'billing_city' => $this->billing_city,
             'billing_address' => $this->billing_address,
             'billing_zip_code' => $this->billing_zip_code,
+            
+            'delivery_customer' => $this->delivery_customer,
+            'delivery_company_name' => $this->delivery_company_name,
+            'delivery_country' => $this->delivery_country,
+            'delivery_state' => $this->delivery_state,
+            'delivery_city' => $this->delivery_city,
+            'delivery_address' => $this->delivery_address,
+            'delivery_zip_code' => $this->delivery_zip_code,
+
             'buyer_phone' => $this->buyer_phone,
             'shipping_label' => $this->shipping_label,
             'buyer_email' => $this->buyer_email,

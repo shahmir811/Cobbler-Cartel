@@ -1,7 +1,6 @@
 <template>
     <!-- Modal -->
     <b-modal
-        scrollable
         v-model="showOrderDetailsModal"
         size="xl"
         content-class="order-details-modal"
@@ -9,10 +8,10 @@
         @ok.prevent="closeModal"
         @close.prevent="closeModal"
     >
-        <b-container v-if="order">
+        <div class="model-body" v-if="order">
             <div class="modal-content">
                 <b-row class="modal-show-details-individual-wrapper">
-                    <h3>Order:</h3>
+                    <h4>Order:</h4>
                     <div class="order-details-div">
                         <b-col>
                             <p class="order-modal-label">Order &#35;</p>
@@ -22,10 +21,14 @@
                             <p class="order-modal-label">Order Received</p>
                             <p>{{ order.order_received_at }}</p>
                         </b-col>
+                        <b-col>
+                            <p class="order-modal-label">Dispatch Date</p>
+                            <p>{{ order.order_dispatch_date }}</p>
+                        </b-col>
                     </div>
                 </b-row>
                 <b-row class="modal-show-details-individual-wrapper">
-                    <h3>Billing Details:</h3>
+                    <h4>Billing Details:</h4>
                     <div class="order-details-div">
                         <b-col>
                             <p class="order-modal-label">Name</p>
@@ -36,13 +39,119 @@
                             <p>{{ order.billing_company_name }}</p>
                         </b-col>
                         <b-col>
+                            <p class="order-modal-label">Zip Code</p>
+                            <p>{{ order.billing_zip_code }}</p>
+                        </b-col>
+                    </div>
+                    <div class="order-details-div">
+                        <b-col>
+                            <p class="order-modal-label">City</p>
+                            <p>{{ order.billing_city }}</p>
+                        </b-col>
+                        <b-col>
+                            <p class="order-modal-label">Country</p>
+                            <p>{{ order.billing_country }}</p>
+                        </b-col>
+
+                        <b-col>
                             <p class="order-modal-label">Address</p>
                             <p>{{ order.billing_address }}</p>
                         </b-col>
                     </div>
                 </b-row>
+                <b-row class="modal-show-details-individual-wrapper">
+                    <h4>Delivery Address:</h4>
+                    <div class="order-details-div">
+                        <b-col>
+                            <p class="order-modal-label">Name</p>
+                            <p>{{ order.delivery_customer }}</p>
+                        </b-col>
+                        <b-col>
+                            <p class="order-modal-label">Company Name</p>
+                            <p>{{ order.delivery_company_name }}</p>
+                        </b-col>
+                        <b-col>
+                            <p class="order-modal-label">Zip Code</p>
+                            <p>{{ removeQuote(order.delivery_zip_code) }}</p>
+                        </b-col>
+                    </div>
+                    <div class="order-details-div">
+                        <b-col>
+                            <p class="order-modal-label">City</p>
+                            <p>{{ order.delivery_city }}</p>
+                        </b-col>
+                        <b-col>
+                            <p class="order-modal-label">Country</p>
+                            <p>{{ order.delivery_country }}</p>
+                        </b-col>
+
+                        <b-col>
+                            <p class="order-modal-label">Address</p>
+                            <p>{{ order.delivery_address }}</p>
+                        </b-col>
+                    </div>
+                </b-row>
+                <b-row class="modal-show-details-individual-wrapper">
+                    <h4>Buyer Details:</h4>
+                    <div class="order-details-div">
+                        <b-col>
+                            <p class="order-modal-label">Phone</p>
+                            <p>{{ order.buyer_phone }}</p>
+                        </b-col>
+                        <b-col>
+                            <p class="order-modal-label">Email</p>
+                            <p>{{ order.buyer_email }}</p>
+                        </b-col>
+                        <b-col> </b-col>
+                    </div>
+                </b-row>
+                <b-row class="modal-show-details-individual-wrapper">
+                    <h4>Shipping Details:</h4>
+                    <div class="order-details-div">
+                        <b-col>
+                            <p class="order-modal-label">Delivery Method</p>
+                            <p>{{ order.delivery_method }}</p>
+                        </b-col>
+                        <b-col>
+                            <p class="order-modal-label">Shipping Address</p>
+                            <p>{{ order.shipping_label }}</p>
+                        </b-col>
+                        <b-col> </b-col>
+                    </div>
+                </b-row>
+                <b-row class="modal-show-details-individual-wrapper">
+                    <h4>Item Details:</h4>
+                    <div class="order-details-div">
+                        <b-col>
+                            <p class="order-modal-label">Item Name</p>
+                            <p>{{ order.item_name }}</p>
+                        </b-col>
+                        <b-col>
+                            <p class="order-modal-label">Item Size</p>
+                            <p>{{ order.item_variant }}</p>
+                        </b-col>
+                        <b-col>
+                            <p class="order-modal-label">Item Price</p>
+                            <p>{{ order.item_price }}</p>
+                        </b-col>
+                    </div>
+                    <div class="order-details-div">
+                        <b-col>
+                            <p class="order-modal-label">Item Weight</p>
+                            <p>{{ order.item_weight }}</p>
+                        </b-col>
+                        <b-col>
+                            <p class="order-modal-label">Quantity</p>
+                            <p>{{ order.quantity }}</p>
+                        </b-col>
+                        <b-col>
+                            <p class="order-modal-label">Total Price</p>
+                            <p>{{ order.total }}</p>
+                        </b-col>
+                    </div>
+                </b-row>
             </div>
-        </b-container>
+        </div>
         <template #modal-footer>
             <div class="w-100">
                 <b-button
@@ -74,6 +183,11 @@ export default {
         return {
             //
         };
+    },
+    methods: {
+        removeQuote(comingString) {
+            return comingString.replace(/['"]+/g, "");
+        }
     }
 };
 </script>
@@ -119,11 +233,22 @@ export default {
     display: flex;
     flex-direction: column;
     padding-left: 30px;
-    margin: 10px 0px;
+    margin: 0px;
 }
 
 .order-details-div {
     display: flex;
     justify-content: space-between;
+}
+
+.order-modal-label {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 24px;
+}
+
+.modal-content {
+    border: none !important;
+    /* overflow-y: auto; */
 }
 </style>
