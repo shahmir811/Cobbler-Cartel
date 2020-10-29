@@ -76,6 +76,7 @@ export const logout = async ({ dispatch, rootState }) => {
             },
             { root: true }
         );
+
         router.push({ name: "login" });
     } catch (error) {
         console.log(error);

@@ -40,7 +40,9 @@ Route::group([
 
     // Admin Orders Controller
     Route::get('orders', 'OrderController@getAllOrders');
+    Route::get('complete-order/{id}', 'OrderController@completeOrder');
     Route::delete('orders/{id}', 'OrderController@DeleteOrder');
+    Route::post('update-order-status/{id}', 'OrderController@updateOrderStatus');
 
     // Admin Excel Controller
     Route::post('upload-file', "ExcelController@importDataToDatabase");

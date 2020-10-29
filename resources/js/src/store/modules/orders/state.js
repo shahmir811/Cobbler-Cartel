@@ -2,7 +2,8 @@ const OrdersState = {
     loading: false,
     orders: [],
     filteredOrders: [],
-    viewOrderDetails: null
+    viewOrderDetails: null,
+    selectOrderToUpdateStatus: null
 };
 
 export default OrdersState;

@@ -1,5 +1,5 @@
 <template>
-    <div class="admin-import-file-wrapping-div">
+    <div class="admin-import-file-wrapping-div" v-if="orders && !loading">
         <h1 class="admin-orders-managment-main-title">Orders Management</h1>
 
         <OrdersSummary :filterOrdersMethod="filterOrders" />
@@ -8,10 +8,17 @@
 
         <OrdersTable :status="status" />
     </div>
+    <div v-else>
+        <b-card>
+            <b-skeleton animation="wave" width="85%"></b-skeleton>
+            <b-skeleton animation="wave" width="55%"></b-skeleton>
+            <b-skeleton animation="wave" width="70%"></b-skeleton>
+        </b-card>
+    </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 import OrdersSummary from "../../../components/Orders/OrdersSummary";
 import FilterOrders from "../../../components/Orders/FilterOrders";
@@ -21,6 +28,12 @@ export default {
     name: "OrdersManagement",
     mounted() {
         this.getAllOrders();
+    },
+    computed: {
+        ...mapGetters({
+            orders: "orders/orders",
+            loading: "orders/loading"
+        })
     },
     components: {
         OrdersSummary,

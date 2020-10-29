@@ -11,6 +11,8 @@ import Users from "../pages/Auth/Users/Users.vue";
 import AddUer from "../pages/Auth/Users/AddUser.vue";
 import UpdateUser from "../pages/Auth/Users/UpdateUser.vue";
 import Orders from "../pages/Auth/Orders/Orders.vue";
+import CompletedOrders from "../pages/Auth/Orders/CompletedOrders.vue";
+import ChangeOrderStatus from "../pages/Auth/Orders/ChangeOrderStatus.vue";
 import ImportExcelFile from "../pages/Auth/ImportExcelFile/ImportExcelFile.vue";
 // import Register from "../pages/Register/Register.vue";
 
@@ -67,6 +69,18 @@ const router = new Router({
             path: "/import-file",
             component: ImportExcelFile,
             name: "import-file",
+            meta: { guest: false, needsAuth: true }
+        },
+        {
+            path: "/change-order-status/:id",
+            component: ChangeOrderStatus,
+            name: "change-order-status",
+            meta: { guest: false, needsAuth: true }
+        },
+        {
+            path: "/completed-orders",
+            component: CompletedOrders,
+            name: "completed-orders",
             meta: { guest: false, needsAuth: true }
         }
     ]

@@ -10,3 +10,6 @@ export const countOrdersByStatus = state => {
 };
 
 export const viewOrderDetails = state => state.viewOrderDetails;
+
+export const selectOrderToUpdateStatus = state =>
+    state.selectOrderToUpdateStatus;

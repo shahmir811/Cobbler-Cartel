@@ -47,3 +47,16 @@ export const resetOrdersState = state => {
     state.filteredOrders = [];
     state.viewOrderDetails = null;
 };
+
+export const removeCompleteOrder = (state, id) => {
+    state.orders = state.orders.filter(order => order.id !== id);
+    state.filteredOrders = state.filteredOrders.filter(
+        order => order.id !== id
+    );
+};
+
+export const selectOrderToChangeStatus = (state, id) => {
+    state.selectOrderToUpdateStatus = state.filteredOrders.find(
+        order => order.id === id
+    );
+};

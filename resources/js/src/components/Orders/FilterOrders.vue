@@ -1,16 +1,18 @@
 <template>
-    <b-row v-if="status === 'processing'">
-        <b-col class="column-containing-filter-text">
-            <div>
-                <b-form-input
-                    type="number"
-                    v-model="searchText"
-                    placeholder="Order #"
-                    @keyup="searchOrder"
-                ></b-form-input>
-            </div>
-        </b-col>
-    </b-row>
+    <div v-if="orders && !loading">
+        <b-row v-if="status === 'processing'">
+            <b-col class="column-containing-filter-text">
+                <div>
+                    <b-form-input
+                        type="number"
+                        v-model="searchText"
+                        placeholder="Order #"
+                        @keyup="searchOrder"
+                    ></b-form-input>
+                </div>
+            </b-col>
+        </b-row>
+    </div>
 </template>
 
 <script>
@@ -20,6 +22,12 @@ export default {
     name: "FilterOrders-component",
     props: {
         status: { type: String }
+    },
+    computed: {
+        ...mapGetters({
+            loading: "orders/loading",
+            orders: "orders/orders"
+        })
     },
     data() {
         return {

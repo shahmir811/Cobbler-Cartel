@@ -20,6 +20,10 @@
                             <th scope="col">Amount</th>
                             <th scope="col">Status</th>
                             <th scope="col">Operated By</th>
+                            <th scope="col">
+                                <span>Mark as</span>
+                                <span>completed</span>
+                            </th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -39,6 +43,14 @@
                             </td>
                             <td>{{ order.operated_by }}</td>
                             <td>
+                                <b-button
+                                    variant="success"
+                                    size="sm"
+                                    @click.prevent="markAsCompleted(order.id)"
+                                    >&#10004;</b-button
+                                >
+                            </td>
+                            <td>
                                 <a href="#" title="Generate BarCode"
                                     ><i
                                         class="fa fa-barcode"
@@ -51,14 +63,17 @@
                                     @click.prevent="viewOrder(order.id)"
                                     ><i class="fa fa-eye" aria-hidden="true"></i
                                 ></a>
-                                <a href="#" title="Edit Order Status"
+                                <a
+                                    href="#"
+                                    title="Edit Order Status"
+                                    @click.prevent="updateOrderStatus(order.id)"
                                     ><i
                                         class="fa fa-pencil-square-o"
                                         aria-hidden="true"
                                     ></i
                                 ></a>
                                 <a
-                                    v-if="user.role === 'admin'"
+                                    v-if="role === 'admin'"
                                     href="#"
                                     title="Remove Order"
                                     @click.prevent="onDeleteHandler(order.id)"
@@ -92,7 +107,7 @@ export default {
             orders: "orders/orders",
             filteredOrders: "orders/filteredOrders",
             countOrdersByStatus: "orders/countOrdersByStatus",
-            user: "auth/user"
+            role: "auth/role"
         })
     },
     components: {
@@ -110,7 +125,9 @@ export default {
             getOrderByOrderNo: "orders/getOrderByOrderNo",
             noFilterRecord: "orders/noFilterRecord",
             removeOrder: "orders/removeOrder",
-            getOrderDetails: "orders/getOrderDetails"
+            getOrderDetails: "orders/getOrderDetails",
+            completeOrder: "orders/completeOrder",
+            selectOrder: "orders/selectOrder"
         }),
         capitalize(order) {
             return order[0].toUpperCase() + order.slice(1);
@@ -121,6 +138,13 @@ export default {
         viewOrder(id) {
             this.getOrderDetails(id);
             this.showOrderDetailsModal = true;
+        },
+        updateOrderStatus(orderId) {
+            this.selectOrder(orderId);
+            this.$router.push({
+                name: "change-order-status",
+                params: { id: orderId }
+            });
         },
         onDeleteHandler(orderId) {
             this.$swal
@@ -139,6 +163,29 @@ export default {
                             this.$swal.fire(
                                 "Deleted!",
                                 "Order has been deleted.",
+                                "success"
+                            );
+                        });
+                    }
+                });
+        },
+        markAsCompleted(orderId) {
+            this.$swal
+                .fire({
+                    title: "Are you sure to mark this order as complete?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, do it!"
+                })
+                .then(result => {
+                    if (result.value) {
+                        this.completeOrder(orderId).then(() => {
+                            this.$swal.fire(
+                                "Completed!",
+                                "Order has been marked as completed.",
                                 "success"
                             );
                         });

@@ -7,6 +7,9 @@
         <router-link to="/orders" class="side-menu-links"
             >Order Management</router-link
         >
+        <router-link to="/completed-orders" class="side-menu-links"
+            >Completed Orders</router-link
+        >
         <a href="#" class="side-menu-links">Scan QR code</a>
         <router-link to="/import-file" class="side-menu-links"
             >Import Excel File</router-link

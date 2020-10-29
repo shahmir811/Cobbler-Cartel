@@ -150,6 +150,19 @@
                         </b-col>
                     </div>
                 </b-row>
+                <b-row class="modal-show-details-individual-wrapper">
+                    <h4>Additional Info:</h4>
+                    <div class="order-details-div">
+                        <b-col>
+                            <p class="order-modal-label">Notes To Seller</p>
+                            <p>{{ order.notes_to_seller }}</p>
+                        </b-col>
+                        <b-col>
+                            <p class="order-modal-label">Additional Info</p>
+                            <p>{{ order.additional_info }}</p>
+                        </b-col>
+                    </div>
+                </b-row>
             </div>
         </div>
         <template #modal-footer>
