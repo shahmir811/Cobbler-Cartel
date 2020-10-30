@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Auth;
+use DateTime;
 use App\Models\{Order, Status};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -79,4 +80,20 @@ class CompleteOrder extends Model
 
         return $this->create($orderData);
     }
+
+
+    public function noOfDays($comingDate)
+    {
+        $orderDispatchDate = new DateTime($comingDate);
+        $todayDate = now();
+
+        $diff = 0;
+
+        if($orderDispatchDate >= $todayDate) {
+            $diff = $todayDate->diff($orderDispatchDate)->format("%a") + 1;
+        }
+
+
+        return $diff;
+    }    
 }

@@ -78,11 +78,13 @@ export default {
     },
     mounted() {
         this.selectedStatus = this.order.status;
+        this.orderNo = this.order.order_no;
     },
     data() {
         return {
             currentStatus: "confirmed",
             selectedStatus: null,
+            orderNo: null,
             allStatuses: [
                 {
                     id: 1,
@@ -106,7 +108,8 @@ export default {
         onChangeAndUpdateOrderStatus() {
             let data = {
                 id: this.$route.params.id,
-                statusName: this.selectedStatus
+                statusName: this.selectedStatus,
+                orderNo: this.orderNo,
             };
             this.$swal
                 .fire({

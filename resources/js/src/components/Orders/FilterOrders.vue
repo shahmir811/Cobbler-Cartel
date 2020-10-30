@@ -1,6 +1,6 @@
 <template>
     <div v-if="orders && !loading">
-        <b-row v-if="status === 'processing'">
+        <b-row v-if="status === 'processing' || status === 'finished'">
             <b-col class="column-containing-filter-text">
                 <div>
                     <b-form-input

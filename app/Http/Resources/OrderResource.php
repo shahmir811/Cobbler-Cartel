@@ -67,6 +67,7 @@ class OrderResource extends JsonResource
             'created_at' => $this->created_at,
             'operated_by' => $this->user->name,
             'status' => $this->status->name,
+            'tableName' => $this->getTable()
 
         ];
     }

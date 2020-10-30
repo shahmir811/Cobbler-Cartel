@@ -27,13 +27,13 @@ export const getSpecificRecords = (state, orderNo) => {
     }
 };
 
-export const removeOrderFromOrdersList = (state, id) => {
+export const removeOrderFromOrdersList = (state, orderNo) => {
     // removing from orders array
-    state.orders = state.orders.filter(order => order.id !== id);
+    state.orders = state.orders.filter(order => order.order_no !== orderNo);
 
     // removing from filteredOrders array
     state.filteredOrders = state.filteredOrders.filter(
-        order => order.id !== id
+        order => order.order_no !== orderNo
     );
 };
 
@@ -48,10 +48,10 @@ export const resetOrdersState = state => {
     state.viewOrderDetails = null;
 };
 
-export const removeCompleteOrder = (state, id) => {
-    state.orders = state.orders.filter(order => order.id !== id);
+export const removeCompleteOrder = (state, orderNo) => {
+    state.orders = state.orders.filter(order => order.order_no !== orderNo);
     state.filteredOrders = state.filteredOrders.filter(
-        order => order.id !== id
+        order => order.order_no !== orderNo
     );
 };
 
@@ -59,4 +59,8 @@ export const selectOrderToChangeStatus = (state, id) => {
     state.selectOrderToUpdateStatus = state.filteredOrders.find(
         order => order.id === id
     );
+};
+
+export const receivedAllCompletedOrders = state => {
+    state.filteredOrders = state.orders;
 };

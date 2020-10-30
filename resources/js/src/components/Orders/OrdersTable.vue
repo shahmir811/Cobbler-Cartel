@@ -16,11 +16,11 @@
                             <th scope="col">S. No</th>
                             <th scope="col">Order No.</th>
                             <th scope="col">Order Received</th>
-                            <th scope="col">Days Left</th>
+                            <th scope="col" v-if="status !== 'finished'">Days Left</th>
                             <th scope="col">Amount</th>
                             <th scope="col">Status</th>
                             <th scope="col">Operated By</th>
-                            <th scope="col">
+                            <th scope="col" v-if="status !== 'finished'">
                                 <span>Mark as</span>
                                 <span>completed</span>
                             </th>
@@ -36,17 +36,17 @@
                             <td>{{ ++index }}</td>
                             <td>{{ order.order_no }}</td>
                             <td>{{ order.order_received_at }}</td>
-                            <td>{{ order.days_left }}</td>
+                            <td v-if="status !== 'finished'">{{ order.days_left }}</td>
                             <td>{{ order.total }}</td>
                             <td>
                                 <strong>{{ capitalize(order.status) }}</strong>
                             </td>
                             <td>{{ order.operated_by }}</td>
-                            <td>
+                            <td v-if="status !== 'finished'">
                                 <b-button
                                     variant="success"
                                     size="sm"
-                                    @click.prevent="markAsCompleted(order.id)"
+                                    @click.prevent="markAsCompleted(order.order_no)"
                                     >&#10004;</b-button
                                 >
                             </td>
@@ -67,6 +67,7 @@
                                     href="#"
                                     title="Edit Order Status"
                                     @click.prevent="updateOrderStatus(order.id)"
+                                    v-if="order.tableName === 'orders'"
                                     ><i
                                         class="fa fa-pencil-square-o"
                                         aria-hidden="true"
@@ -76,7 +77,7 @@
                                     v-if="role === 'admin'"
                                     href="#"
                                     title="Remove Order"
-                                    @click.prevent="onDeleteHandler(order.id)"
+                                    @click.prevent="onDeleteHandler(order.order_no)"
                                     ><i
                                         class="fa fa-trash-o"
                                         aria-hidden="true"
@@ -126,7 +127,7 @@ export default {
             noFilterRecord: "orders/noFilterRecord",
             removeOrder: "orders/removeOrder",
             getOrderDetails: "orders/getOrderDetails",
-            completeOrder: "orders/completeOrder",
+            markOrderAsComplete: "orders/markOrderAsComplete",
             selectOrder: "orders/selectOrder"
         }),
         capitalize(order) {
@@ -146,7 +147,7 @@ export default {
                 params: { id: orderId }
             });
         },
-        onDeleteHandler(orderId) {
+        onDeleteHandler(order_no) {
             this.$swal
                 .fire({
                     title: "Are you sure to delete this order?",
@@ -159,7 +160,7 @@ export default {
                 })
                 .then(result => {
                     if (result.value) {
-                        this.removeOrder(orderId).then(() => {
+                        this.removeOrder(order_no).then(() => {
                             this.$swal.fire(
                                 "Deleted!",
                                 "Order has been deleted.",
@@ -169,7 +170,7 @@ export default {
                     }
                 });
         },
-        markAsCompleted(orderId) {
+        markAsCompleted(orderNo) {
             this.$swal
                 .fire({
                     title: "Are you sure to mark this order as complete?",
@@ -182,7 +183,7 @@ export default {
                 })
                 .then(result => {
                     if (result.value) {
-                        this.completeOrder(orderId).then(() => {
+                        this.markOrderAsComplete(orderNo).then(() => {
                             this.$swal.fire(
                                 "Completed!",
                                 "Order has been marked as completed.",

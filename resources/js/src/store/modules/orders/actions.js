@@ -31,10 +31,10 @@ export const noFilterRecord = ({ state, commit }) => {
 
 export const removeOrder = async (
     { state, commit, rootState, dispatch },
-    id
+    orderNo
 ) => {
     try {
-        await axios.delete(`/admin/orders/${id}`);
+        await axios.delete(`/admin/orders/${orderNo}`);
 
         dispatch(
             "flashMessage",
@@ -45,7 +45,7 @@ export const removeOrder = async (
             { root: true }
         );
 
-        commit("removeOrderFromOrdersList", id);
+        commit("removeOrderFromOrdersList", orderNo);
     } catch (error) {
         console.log(error);
     }
@@ -60,13 +60,16 @@ export const clearOrdersState = ({ state, commit }) => {
 };
 
 /////////////////////// Complete Order ///////////////////////
-export const completeOrder = async ({ state, commit, rootState }, id) => {
+export const markOrderAsComplete = async (
+    { state, commit, rootState },
+    orderNo
+) => {
     const { role } = rootState.auth.user;
 
     try {
-        await axios.get(`/${role}/complete-order/${id}`);
+        await axios.get(`/${role}/mark-order-as-complete/${orderNo}`);
 
-        commit("removeCompleteOrder", id);
+        commit("removeCompleteOrder", orderNo);
     } catch (error) {
         console.log(error);
     }
@@ -86,7 +89,7 @@ export const updateOrderStatus = async (
 
     commit("setLoading", true);
     try {
-        await axios.post(`/${role}/update-order-status/${data.id}`, data);
+        await axios.post(`/${role}/update-order-status/${data.orderNo}`, data);
         dispatch(
             "flashMessage",
             {
@@ -99,6 +102,27 @@ export const updateOrderStatus = async (
         commit("setLoading", false);
 
         router.push({ name: "orders" });
+    } catch (error) {
+        console.log(error);
+        commit("setLoading", false);
+    }
+};
+
+/////////////////////// Get AllCompleted Orders ///////////////////////
+export const getAllCompletedOrders = async ({
+    state,
+    commit,
+    rootState,
+    dispatch
+}) => {
+    const { role } = rootState.auth.user;
+    commit("setLoading", true);
+    try {
+        const response = await axios.get(`/${role}/get-all-completed-orders`);
+        commit("setOrders", response.data.data.orders);
+        commit("receivedAllCompletedOrders");
+
+        commit("setLoading", false);
     } catch (error) {
         console.log(error);
         commit("setLoading", false);

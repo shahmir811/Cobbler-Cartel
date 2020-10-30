@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers\API\Admin;
 
+use DB;
 use App\Models\{Order, CompleteOrder, Status, Message};
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Resources\OrderResource;
+use App\Http\Resources\{OrderResource};
 
 class OrderController extends Controller
 {
     public function getAllOrders()
     {
-        $orders = Order::all();
+        $statusId = $this->getStatusId('finished');
+        $orders = Order::where('statuses_id', '!=', $statusId)->get();
+
         return response() -> json([
             'status' => 1,
             'message' => "List of all orders",
@@ -21,9 +24,9 @@ class OrderController extends Controller
         ], 200);
     }
 
-    public function DeleteOrder($id)
+    public function DeleteOrder($orderId)
     {
-        $order = Order::findOrFail($id);
+        $order = Order::where("order_no", '=', $orderId)->first();
         $order->delete();
 
         return response() -> json([
@@ -32,30 +35,20 @@ class OrderController extends Controller
         ], 200);    
     }
 
-    public function completeOrder($id)
+    public function markOrderAsCompleted($orderId)
     {
-        $order = Order::findOrFail($id);
-
+        $order = Order::where("order_no", '=', $orderId)->first();
+        $order->statuses_id = $this->getStatusId('finished');
+        $order->save();
         // insert record in complete orders table
-        $completeOrder = new CompleteOrder;
-        $completeOrder->insertRecord($order);
+        // $completeOrder = new CompleteOrder;
+        // $completeOrder->insertRecord($order);
 
-        // Add record to messages table
         // Add record to messages table
         $this->addRecordToMessagesTable($order->order_no, $order->delivery_customer, 'finished', $order->buyer_phone);
 
-        // $messageRecord = [
-        //     'order_no' => $order->order_no,
-        //     'name' =>  $order->delivery_customer,
-        //     'type' => 'finished',
-        //     'phone_number' => $order->buyer_phone
-        // ];
-
-        // $message = new Message;
-        // $message->insertRecord($messageRecord);
-
         // remove order from orders table
-        $order->delete();
+        // $order->delete();
 
         return response() -> json([
             'status' => 1,
@@ -63,26 +56,28 @@ class OrderController extends Controller
         ], 200);
     }
 
-    public function updateOrderStatus($id, Request $request)
+    public function updateOrderStatus($orderNo, Request $request)
     {
-        $order = Order::findOrFail($id);
+        $order = Order::where('order_no', '=',$orderNo)->first();
+        $order->statuses_id = $this->getStatusId($request->statusName);
+        $order->save();        
 
         // Add record to messages table
         $this->addRecordToMessagesTable($order->order_no, $order->delivery_customer, $request->statusName, $order->buyer_phone);
 
         // If Status is finished then move record to completed_orders table
         // And then remove record from orders table
-        if($request->statusName == 'finished') {
-            $completeOrder = new CompleteOrder;
-            $completeOrder->insertRecord($order);   
+        // if($request->statusName == 'finished') {
+        //     $completeOrder = new CompleteOrder;
+        //     $completeOrder->insertRecord($order);   
             
-            $order->delete();
+        //     $order->delete();
         
-        } else {
-            $statusId = Status::where('name', '=', $request->statusName)->pluck('id')->first();
-            $order->statuses_id = $statusId;
-            $order->save();
-        }
+        // } else {
+        //     $statusId = Status::where('name', '=', $request->statusName)->pluck('id')->first();
+        //     $order->statuses_id = $statusId;
+        //     $order->save();
+        // }
 
         return response() -> json([
             'status' => 1,
@@ -105,6 +100,30 @@ class OrderController extends Controller
         $message->insertRecord($record);
 
         return;
+    }
+
+    public function getCompletedOrders()
+    {
+        $finishedStatusId = $this->getStatusId('finished');
+
+        $completedOrders = CompleteOrder::all();
+        $otherCompletedOrders = Order::where('statuses_id', '=', $finishedStatusId)->get();
+        $orders = $otherCompletedOrders->merge($completedOrders);
+
+        return response() -> json([
+            'status' => 1,
+            'message' => "List of all completed orders",
+            'count' => sizeof($orders),
+            'data' => [
+                'orders' => OrderResource::collection($orders),
+            ]
+        ], 200);
+    }
+
+    private function getStatusId($stausName)
+    {
+        $getId = Status::where('name', '=', $stausName)->pluck('id')->first();
+        return $getId;
     }
 
     
