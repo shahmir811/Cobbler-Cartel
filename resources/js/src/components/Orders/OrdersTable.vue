@@ -51,7 +51,7 @@
                                 >
                             </td>
                             <td>
-                                <a href="#" title="Generate BarCode"
+                                <a href="#" title="Generate BarCode" @click.prevent="generateAndDownloadBarCode(order.order_no)"
                                     ><i
                                         class="fa fa-barcode"
                                         aria-hidden="true"
@@ -94,6 +94,8 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import {generateAndDownloadBarcodeInPDF} from './generateBarcode'; 
+import JsBarcode from "jsbarcode";
 
 import OrderDetailsModal from "./OrderDetailsModal";
 
@@ -192,7 +194,10 @@ export default {
                         });
                     }
                 });
-        }
+        },
+        generateAndDownloadBarCode(orderNo) {
+            generateAndDownloadBarcodeInPDF(orderNo);
+        },
     }
 };
 </script>
