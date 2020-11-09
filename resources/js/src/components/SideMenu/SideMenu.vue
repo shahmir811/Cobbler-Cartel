@@ -10,6 +10,12 @@
         <router-link to="/completed-orders" class="side-menu-links"
             >Completed Orders</router-link
         >
+        <router-link to="/items" class="side-menu-links"
+            >Items Management</router-link
+        >
+        <router-link to="/inventory" class="side-menu-links"
+            >Inventory Management</router-link
+        >
         <a href="#" class="side-menu-links">Scan QR code</a>
         <router-link to="/import-file" class="side-menu-links"
             >Import Excel File</router-link

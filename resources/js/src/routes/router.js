@@ -14,6 +14,8 @@ import Orders from "../pages/Auth/Orders/Orders.vue";
 import CompletedOrders from "../pages/Auth/Orders/CompletedOrders.vue";
 import ChangeOrderStatus from "../pages/Auth/Orders/ChangeOrderStatus.vue";
 import ImportExcelFile from "../pages/Auth/ImportExcelFile/ImportExcelFile.vue";
+import ItemsManagementPage from "../pages/Auth/Items/Items.vue";
+import InventoryManagementPage from "../pages/Auth/Inventory/Inventory.vue";
 // import Register from "../pages/Register/Register.vue";
 
 // Employee Pages
@@ -81,6 +83,18 @@ const router = new Router({
             path: "/completed-orders",
             component: CompletedOrders,
             name: "completed-orders",
+            meta: { guest: false, needsAuth: true }
+        },
+        {
+            path: "/items",
+            component: ItemsManagementPage,
+            name: "items",
+            meta: { guest: false, needsAuth: true }
+        },
+        {
+            path: "/inventory",
+            component: InventoryManagementPage,
+            name: "inventory",
             meta: { guest: false, needsAuth: true }
         }
     ]

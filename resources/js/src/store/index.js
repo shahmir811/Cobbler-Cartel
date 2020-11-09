@@ -11,6 +11,7 @@ import * as actions from "./actions";
 import auth from "./modules/auth";
 import user from "./modules/user";
 import orders from "./modules/orders";
+import items from "./modules/items";
 
 export default new Vuex.Store({
     state,
@@ -20,6 +21,7 @@ export default new Vuex.Store({
     modules: {
         auth,
         user,
-        orders
+        orders,
+        items
     }
 });

@@ -74,7 +74,7 @@
                                     ></i
                                 ></a>
                                 <a
-                                    v-if="role === 'admin'"
+                                    v-if="role && role === 'admin'"
                                     href="#"
                                     title="Remove Order"
                                     @click.prevent="onDeleteHandler(order.order_no)"

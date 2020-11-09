@@ -45,6 +45,12 @@ Route::group([
     Route::post('update-order-status/{orderId}', 'OrderController@updateOrderStatus');
     Route::get('get-all-completed-orders', 'OrderController@getCompletedOrders');
 
+    // Admin Item Controller
+    Route::get('items', 'ItemController@getAllItems');
+    Route::post('add-item', 'ItemController@addItem');
+    Route::post('update-item/{id}', 'ItemController@updateItem');
+    Route::delete('delete-item/{id}', 'ItemController@deleteItem');
+
     // Admin Excel Controller
     Route::post('upload-file', "ExcelController@importDataToDatabase");
 

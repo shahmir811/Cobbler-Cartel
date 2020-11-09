@@ -64,6 +64,10 @@ export const markOrderAsComplete = async (
     { state, commit, rootState },
     orderNo
 ) => {
+    if (!rootState.auth.user) {
+        return;
+    }
+
     const { role } = rootState.auth.user;
 
     try {
@@ -85,6 +89,10 @@ export const updateOrderStatus = async (
     { state, commit, rootState, dispatch },
     data
 ) => {
+    if (!rootState.auth.user) {
+        return;
+    }
+
     const { role } = rootState.auth.user;
 
     commit("setLoading", true);
@@ -115,6 +123,10 @@ export const getAllCompletedOrders = async ({
     rootState,
     dispatch
 }) => {
+    if (!rootState.auth.user) {
+        return;
+    }
+
     const { role } = rootState.auth.user;
     commit("setLoading", true);
     try {

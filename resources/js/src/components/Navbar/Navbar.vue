@@ -17,7 +17,7 @@
             <b-collapse id="nav-collapse" is-nav>
                 <!-- Right aligned nav items -->
                 <b-navbar-nav class="ml-auto">
-                    <b-navbar-nav>
+                    <b-navbar-nav v-if="!isAuthenticated">
                         <b-nav-item href="#">
                             <router-link to="/login" class="navbar-link"
                                 >Login</router-link
@@ -25,28 +25,17 @@
                         </b-nav-item>
                     </b-navbar-nav>
 
-                    <b-nav-item-dropdown text="Lang" right>
-                        <b-dropdown-item href="#">EN</b-dropdown-item>
-                        <b-dropdown-item href="#">ES</b-dropdown-item>
-                        <b-dropdown-item href="#">RU</b-dropdown-item>
-                        <b-dropdown-item href="#">FA</b-dropdown-item>
-                    </b-nav-item-dropdown>
-
-                    <b-nav-item-dropdown right>
+                    <b-nav-item-dropdown right v-if="user">
                         <!-- Using 'button-content' slot -->
                         <template #button-content>
-                            <em>User</em>
+                            <em>Welcome {{ user.name }}</em>
                         </template>
                         <b-dropdown-item href="#">Profile</b-dropdown-item>
-                        <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+                        <b-dropdown-item href="#"  @click.prevent="exitApplication">Sign Out</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
             </b-collapse>
-            <b-navbar-nav>
-                <b-nav-item href="#" @click.prevent="exitApplication">
-                    Logout
-                </b-nav-item>
-            </b-navbar-nav>
+
         </b-navbar>
     </div>
 </template>
@@ -58,7 +47,8 @@ export default {
     name: "Navbar",
     computed: {
         ...mapGetters({
-            isAuthenticated: "auth/isAuthenticated"
+            isAuthenticated: "auth/isAuthenticated",
+            user: "auth/user",
         })
     },
     methods: {
@@ -74,6 +64,7 @@ export default {
                 this.clearUserState();
                 this.clearOrdersState();
             });
+            
         }
     }
 };
