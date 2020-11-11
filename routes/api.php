@@ -51,6 +51,12 @@ Route::group([
     Route::post('update-item/{id}', 'ItemController@updateItem');
     Route::delete('delete-item/{id}', 'ItemController@deleteItem');
 
+    // Admin Inventory Controller
+    Route::get('inventory-list', 'InventoryController@getAllInventory');   
+    Route::post('add-inventory', 'InventoryController@addNewInventoryItem'); 
+    Route::post('update-inventory/{id}', 'InventoryController@updateInventoryItem'); 
+    Route::delete('delete-inventory/{id}', 'InventoryController@deleteInventoryItem'); 
+
     // Admin Excel Controller
     Route::post('upload-file', "ExcelController@importDataToDatabase");
 

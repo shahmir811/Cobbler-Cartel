@@ -12,6 +12,7 @@ import auth from "./modules/auth";
 import user from "./modules/user";
 import orders from "./modules/orders";
 import items from "./modules/items";
+import inventory from "./modules/inventory";
 
 export default new Vuex.Store({
     state,
@@ -22,6 +23,7 @@ export default new Vuex.Store({
         auth,
         user,
         orders,
-        items
+        items,
+        inventory
     }
 });

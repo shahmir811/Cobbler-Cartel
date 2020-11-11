@@ -62,7 +62,7 @@ export default {
     },
     watch: {
       selectedItem(newValue, oldValue) {
-        console.log(`Updating from ${oldValue} to ${newValue}`);
+        // console.log(`Updating from ${oldValue} to ${newValue}`);
         if(newValue) {
           this.data = newValue;
           const properPrice = Number(newValue.price.replace(/[^0-9.-]+/g,""));
