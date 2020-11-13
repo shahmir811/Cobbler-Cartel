@@ -12,5 +12,10 @@ class Purchase extends Model
 
     public function item() {
         return $this->belongsTo(Item::class);
-    }    
+    }
+    
+    public function getTotalAmount($item_id, $quantity) {
+        $item = $this->item->where('id', '=', $item_id)->first();
+        return $item->price * $quantity;
+    }
 }

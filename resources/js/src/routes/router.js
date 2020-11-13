@@ -16,6 +16,7 @@ import ChangeOrderStatus from "../pages/Auth/Orders/ChangeOrderStatus.vue";
 import ImportExcelFile from "../pages/Auth/ImportExcelFile/ImportExcelFile.vue";
 import ItemsManagementPage from "../pages/Auth/Items/Items.vue";
 import InventoryManagementPage from "../pages/Auth/Inventory/Inventory.vue";
+import PurchaseManagementPage from "../pages/Auth/Purchases/Purchases.vue";
 // import Register from "../pages/Register/Register.vue";
 
 // Employee Pages
@@ -95,6 +96,12 @@ const router = new Router({
             path: "/inventory",
             component: InventoryManagementPage,
             name: "inventory",
+            meta: { guest: false, needsAuth: true }
+        },
+        {
+            path: "/purchases",
+            component: PurchaseManagementPage,
+            name: "purchases",
             meta: { guest: false, needsAuth: true }
         }
     ]

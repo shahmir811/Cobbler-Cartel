@@ -13,6 +13,7 @@ import user from "./modules/user";
 import orders from "./modules/orders";
 import items from "./modules/items";
 import inventory from "./modules/inventory";
+import purchases from "./modules/purchases";
 
 export default new Vuex.Store({
     state,
@@ -24,6 +25,7 @@ export default new Vuex.Store({
         user,
         orders,
         items,
-        inventory
+        inventory,
+        purchases
     }
 });

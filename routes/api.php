@@ -57,6 +57,12 @@ Route::group([
     Route::post('update-inventory/{id}', 'InventoryController@updateInventoryItem'); 
     Route::delete('delete-inventory/{id}', 'InventoryController@deleteInventoryItem'); 
 
+    // Admin Purchase Controller
+    Route::get('purchases', 'PurchaseController@getAllPurchases');   
+    Route::post('add-new-purchase', 'PurchaseController@addNewPurchase'); 
+    Route::post('update-purchase/{id}', 'PurchaseController@updatePurchaseItem'); 
+    Route::delete('delete-purchase/{id}', 'PurchaseController@deletePurchaseItem');     
+
     // Admin Excel Controller
     Route::post('upload-file', "ExcelController@importDataToDatabase");
 
