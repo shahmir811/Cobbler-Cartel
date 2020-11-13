@@ -14,11 +14,16 @@ export const uploadExcelFile = async (
     { state, commit, rootState, dispatch },
     formData
 ) => {
+    if (!rootState.auth.user) {
+        return;
+    }
+
+    const { role } = rootState.auth.user;
     commit("setLoading", true);
     commit("clearErrors");
 
     try {
-        const response = await axios.post("/admin/upload-file", formData);
+        const response = await axios.post(`/${role}/upload-file`, formData);
 
         commit("setLoading", false);
 

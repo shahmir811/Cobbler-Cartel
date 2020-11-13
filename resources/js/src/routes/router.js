@@ -20,8 +20,8 @@ import PurchaseManagementPage from "../pages/Auth/Purchases/Purchases.vue";
 // import Register from "../pages/Register/Register.vue";
 
 // Employee Pages
-// import EmployeeHome from "../pages/Employee/Home/Home.vue";
-// import EmployeeImportFile from "../pages/Employee/ImportFile/ImportFile.vue";
+import MyProfilePage from "../pages/Auth/Profile/Profile.vue";
+import UpdatePasswordPage from "../pages/Auth/Profile/UpdatePassword.vue";
 
 const router = new Router({
     mode: "history",
@@ -102,6 +102,18 @@ const router = new Router({
             path: "/purchases",
             component: PurchaseManagementPage,
             name: "purchases",
+            meta: { guest: false, needsAuth: true }
+        },
+        {
+            path: "/my-profile",
+            component: MyProfilePage,
+            name: "my-profile",
+            meta: { guest: false, needsAuth: true }
+        },
+        {
+            path: "/update-password",
+            component: UpdatePasswordPage,
+            name: "update-password",
             meta: { guest: false, needsAuth: true }
         }
     ]

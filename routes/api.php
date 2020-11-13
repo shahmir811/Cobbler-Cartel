@@ -68,3 +68,36 @@ Route::group([
 
 });
 
+Route::group([
+    'middleware' => ['auth:api', 'role:employee'],
+    'namespace' => 'API\Employee',
+    'prefix' => 'employee'
+
+], function () {
+    // Employee Home Controller
+    Route::get('orders-overview', 'HomeController@ordersOverview');
+
+    // Employee User Controller
+    Route::post('update-password/{id}', 'UserController@updatePassword');
+
+    // Employee Orders Controller
+    Route::get('orders', 'OrderController@getAllOrders');
+    Route::get('mark-order-as-complete/{orderId}', 'OrderController@markOrderAsCompleted');
+    Route::delete('orders/{orderId}', 'OrderController@DeleteOrder');
+    Route::post('update-order-status/{orderId}', 'OrderController@updateOrderStatus');
+    Route::get('get-all-completed-orders', 'OrderController@getCompletedOrders');
+
+    // Employee Item Controller
+    Route::get('items', 'ItemController@getAllItems');    
+
+    // Employee Inventory Controller
+    Route::get('inventory-list', 'InventoryController@getAllInventory');   
+    Route::post('add-inventory', 'InventoryController@addNewInventoryItem'); 
+    Route::post('update-inventory/{id}', 'InventoryController@updateInventoryItem'); 
+    Route::delete('delete-inventory/{id}', 'InventoryController@deleteInventoryItem');   
+
+    // Employee Excel Controller
+    Route::post('upload-file', "ExcelController@importDataToDatabase");
+
+});
+

@@ -30,7 +30,9 @@
                         <template #button-content>
                             <em>Welcome {{ user.name }}</em>
                         </template>
-                        <b-dropdown-item href="#">Profile</b-dropdown-item>
+                        <b-dropdown-item href="#" v-if="user.role === 'employee'">
+                            <router-link to="/my-profile" class="profile-link">Profile</router-link>
+                        </b-dropdown-item>
                         <b-dropdown-item href="#"  @click.prevent="exitApplication">Sign Out</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
@@ -96,4 +98,13 @@ export default {
         text-decoration: none;
     }
 }
+
+.profile-link {
+    color: black !important; 
+
+    &:hover {
+        text-decoration: none;
+    }   
+}
+
 </style>

@@ -2,9 +2,15 @@ import axios from "../../BaseUrl";
 import router from "../../../routes/router";
 
 export const getAllOrders = async ({ state, commit, rootState, dispatch }) => {
+    if (!rootState.auth.user) {
+        return;
+    }
+
+    const { role } = rootState.auth.user;
+
     commit("setLoading", true);
     try {
-        const response = await axios.get("/admin/orders");
+        const response = await axios.get(`/${role}/orders`);
         commit("setOrders", response.data.data.orders);
         commit("filterMyOrders");
         commit("getNoFilterRecord");
@@ -33,8 +39,14 @@ export const removeOrder = async (
     { state, commit, rootState, dispatch },
     orderNo
 ) => {
+    if (!rootState.auth.user) {
+        return;
+    }
+
+    const { role } = rootState.auth.user;
+
     try {
-        await axios.delete(`/admin/orders/${orderNo}`);
+        await axios.delete(`/${role}/orders/${orderNo}`);
 
         dispatch(
             "flashMessage",
