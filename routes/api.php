@@ -67,6 +67,11 @@ Route::group([
     // Admin Excel Controller
     Route::post('upload-file', "ExcelController@importDataToDatabase");
 
+    // Admin ScanQRCode Controller
+    Route::get('getAllStatuses', 'ScanQRCodeController@getAllStatuses');    
+    Route::get('getOrder/{orderNo}', 'ScanQRCodeController@getOrder');
+    Route::post('updateOrderList', 'ScanQRCodeController@updateOrderList');
+
 });
 
 Route::group([

@@ -12,13 +12,31 @@
 
 
 .semibold-12px-20px {
-  font-weight: bold;
-  font-size: 12px;
-  line-height: 20px;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 20px;
 }
 
 .semibold-16px-24px {
     font-weight: bold;
     font-size: 16px;
     line-height: 24px;
+}
+
+
+.mt-50 {
+    margin-top: 50px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.pt-20 {
+    padding-top: 20px !important;
+}
+
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
 }

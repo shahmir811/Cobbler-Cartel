@@ -20,6 +20,7 @@ import PurchaseManagementPage from "../pages/Auth/Purchases/Purchases.vue";
 import NotFound from "../pages/Error/NotFound.vue";
 import ForgotPasswordPage from "../pages/Register/ForgotPassword.vue";
 import PasswordResetPage from "../pages/Register/PasswordReset.vue";
+import ScanBarCodePage from "../pages/Auth/ScanBarCode/ScanBarCode.vue";
 
 // Employee Pages
 import MyProfilePage from "../pages/Auth/Profile/Profile.vue";
@@ -128,6 +129,12 @@ const router = new Router({
             path: "/update-password",
             component: UpdatePasswordPage,
             name: "update-password",
+            meta: { guest: false, needsAuth: true }
+        },
+        {
+            path: "/scanbarcode",
+            component: ScanBarCodePage,
+            name: "scanbarcode",
             meta: { guest: false, needsAuth: true }
         },
         {
