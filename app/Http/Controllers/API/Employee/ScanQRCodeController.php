@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API\Admin;
+namespace App\Http\Controllers\API\Employee;
 
 use Auth;
 use App\Models\{Order, Status, Message, Item, Inventory};

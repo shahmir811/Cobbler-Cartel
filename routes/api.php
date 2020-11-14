@@ -72,6 +72,9 @@ Route::group([
     Route::get('getOrder/{orderNo}', 'ScanQRCodeController@getOrder');
     Route::post('updateOrderList', 'ScanQRCodeController@updateOrderList');
 
+    Route::get('getItem/{itemCode}', 'ScanQRCodeController@getItem');
+    Route::post('updateItemsList', 'ScanQRCodeController@updateItemsList');
+
 });
 
 Route::group([
@@ -104,6 +107,14 @@ Route::group([
 
     // Employee Excel Controller
     Route::post('upload-file', "ExcelController@importDataToDatabase");
+
+    // Employee ScanQRCode Controller
+    Route::get('getAllStatuses', 'ScanQRCodeController@getAllStatuses');    
+    Route::get('getOrder/{orderNo}', 'ScanQRCodeController@getOrder');
+    Route::post('updateOrderList', 'ScanQRCodeController@updateOrderList');
+
+    Route::get('getItem/{itemCode}', 'ScanQRCodeController@getItem');
+    Route::post('updateItemsList', 'ScanQRCodeController@updateItemsList');    
 
 });
 

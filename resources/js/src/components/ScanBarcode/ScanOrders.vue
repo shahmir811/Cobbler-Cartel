@@ -55,6 +55,7 @@
 
 import axios from '../../store/BaseUrl';
 import { mapGetters, mapActions } from 'vuex';
+import _ from 'lodash';
 
 export default {
     name: "ScanOrders",
@@ -92,18 +93,21 @@ export default {
         let value = comingValue;
         this.searchOrder = ''
 
-        try {
-          this.loading = true;
+        if(!this.checkIfOrderNoAlreadyExistsInRecordsArray(value)) {
+          try {
+            this.loading = true;
 
-          const response = await axios.get(`/${this.user.role}/getOrder/${value}`);
-          this.records.push(response.data.data.order);
+            const response = await axios.get(`/${this.user.role}/getOrder/${value}`);
+            this.records.push(response.data.data.order);
 
-          this.loading = false;
-          
-        } catch (error) {
-          console.log(error);
-          this.loading = false;
+            this.loading = false;
+            
+          } catch (error) {
+            console.log(error);
+            this.loading = false;
+          }
         }
+
       },
       async getAllStatuses() {
         try {
@@ -116,6 +120,12 @@ export default {
       removeRecord(order_no) {
         this.records = this.records.filter(record => record.order_no !== order_no);
         // this.recordsList = this.recordsList.filter(record => record.order_no !== order_no);
+      },
+      checkIfOrderNoAlreadyExistsInRecordsArray(order_no) {
+
+        const order = this.records.find(record => record.order_no === order_no);
+
+        return order ? true : false;
       },
       async updateOrderList() {
 
