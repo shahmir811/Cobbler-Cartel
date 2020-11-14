@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function users()
     {
-        $users = User::all();
+        $users = User::withTrashed()->get();
         return response() -> json([
             'status' => 1,
             'message' => 'List of all system Users',
@@ -77,5 +77,23 @@ class UserController extends Controller
             'message' => 'User deleted successfully'
         ], 200);    
     }    
+
+
+    public function changeUserStatus($id)
+    {
+        // $user = User::findOrFail($id);
+        $user = User::withTrashed()->where('id', '=', $id)->first();
+        if($user->deleted_at) {
+            $user->restore();
+        } else {
+            $user->delete();
+        }
+
+        return response() -> json([
+            'status' => 1,
+            'message' => 'User status has been changed'
+        ], 200);    
+
+    }
     
 }

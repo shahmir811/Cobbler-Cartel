@@ -20,3 +20,12 @@ export const resetUserState = state => {
     state.errors = [];
     state.updateUser = null;
 };
+
+export const changeUserStatus = (state, id) => {
+    const user = state.users.find(user => user.id === id);
+    if (user.status === "Active") {
+        user.status = "Deactive";
+    } else {
+        user.status = "Active";
+    }
+};

@@ -37,6 +37,7 @@ Route::group([
     Route::post('update-user/{id}', 'UserController@updateUser');
     Route::post('update-password/{id}', 'UserController@updatePassword');
     Route::delete('delete-user/{id}', 'UserController@deleteUser');
+    Route::get('change-user-status/{id}', 'UserController@changeUserStatus');
 
     // Admin Orders Controller
     Route::get('orders', 'OrderController@getAllOrders');
@@ -98,6 +99,16 @@ Route::group([
 
     // Employee Excel Controller
     Route::post('upload-file', "ExcelController@importDataToDatabase");
+
+});
+
+Route::group([
+    'namespace' => 'API\Auth'
+
+], function () {
+
+    Route::post('/userForgotPassword', 'ForgotPasswordController@userForgotPassword');
+    Route::post('/resetPassword', 'ForgotPasswordController@resetPassword');
 
 });
 

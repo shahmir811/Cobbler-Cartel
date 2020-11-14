@@ -124,6 +124,22 @@ export const deleteUser = ({ commit, dispatch, rootState }, userId) => {
         .catch(error => console.log(error));
 };
 
+/////////////////////// Change User Status ///////////////////////
+export const changeUserStatus = ({ commit, dispatch, rootState }, userId) => {
+    return new Promise((resolve, reject) => {
+        axios
+            .get(`admin/change-user-status/${userId}`)
+            .then(() => {
+                commit("changeUserStatus", userId);
+                resolve();
+            })
+            .catch(error => {
+                console.log(error);
+                reject();
+            });
+    });
+};
+
 /////////////////////// Clear all users state ///////////////////////
 export const clearUserState = ({ state, commit }) => {
     commit("resetUserState");

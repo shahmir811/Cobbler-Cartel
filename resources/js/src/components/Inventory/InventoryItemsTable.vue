@@ -12,7 +12,11 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item, index) in inventoryList" :key="item.id">
+                <tr 
+                  v-for="(item, index) in inventoryList" 
+                  :key="item.id" 
+                  :class="{'less-inventory': item.quantity < 50}"
+                  >
                   <td>{{ ++index }}</td>
                   <td>{{ item.item_name }}</td>
                   <td>{{ item.quantity }}</td>
@@ -76,5 +80,9 @@ export default {
 
 <style lang="scss">
 @import "../../styles/styles.scss";
+
+.less-inventory {
+  background: lighten(red, 30%); 
+}
 
 </style>

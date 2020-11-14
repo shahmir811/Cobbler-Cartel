@@ -17,7 +17,9 @@ import ImportExcelFile from "../pages/Auth/ImportExcelFile/ImportExcelFile.vue";
 import ItemsManagementPage from "../pages/Auth/Items/Items.vue";
 import InventoryManagementPage from "../pages/Auth/Inventory/Inventory.vue";
 import PurchaseManagementPage from "../pages/Auth/Purchases/Purchases.vue";
-// import Register from "../pages/Register/Register.vue";
+import NotFound from "../pages/Error/NotFound.vue";
+import ForgotPasswordPage from "../pages/Register/ForgotPassword.vue";
+import PasswordResetPage from "../pages/Register/PasswordReset.vue";
 
 // Employee Pages
 import MyProfilePage from "../pages/Auth/Profile/Profile.vue";
@@ -36,6 +38,18 @@ const router = new Router({
             path: "/login",
             component: Login,
             name: "login",
+            meta: { guest: true, needsAuth: false }
+        },
+        {
+            path: "/forgot-password",
+            component: ForgotPasswordPage,
+            name: "forgot-password",
+            meta: { guest: false, needsAuth: false }
+        },
+        {
+            path: "/password-reset",
+            component: PasswordResetPage,
+            name: "password-reset",
             meta: { guest: true, needsAuth: false }
         },
         {
@@ -115,6 +129,10 @@ const router = new Router({
             component: UpdatePasswordPage,
             name: "update-password",
             meta: { guest: false, needsAuth: true }
+        },
+        {
+            path: "*",
+            component: NotFound
         }
     ]
 });

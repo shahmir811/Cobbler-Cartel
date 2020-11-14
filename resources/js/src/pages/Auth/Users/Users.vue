@@ -17,6 +17,7 @@
                             <th scope="col">Name</th>
                             <th scope="col">Email</th>
                             <th scope="col">Role</th>
+                            <th scope="col">status</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -26,6 +27,7 @@
                             <td>{{ user.name }}</td>
                             <td>{{ user.email }}</td>
                             <td>{{ capitalize(user.role) }}</td>
+                            <td>{{ user.status }}</td>
                             <td>
                                 <router-link
                                     class="update-user-link"
@@ -44,7 +46,7 @@
                                     class="update-user-delete-link"
                                     @click.prevent="onDeleteHandler(user.id)"
                                     ><i
-                                        class="fa fa-trash-o"
+                                        class="fa fa-handshake-o"
                                         aria-hidden="true"
                                     ></i
                                 ></a>
@@ -89,7 +91,8 @@ export default {
         ...mapActions({
             fetchUsers: "user/fetchUsers",
             UpdateUserPassword: "user/UpdateUserPassword",
-            deleteUser: "user/deleteUser"
+            deleteUser: "user/deleteUser",
+            changeUserStatus: 'user/changeUserStatus'
         }),
         capitalize(role) {
             return role[0].toUpperCase() + role.slice(1);
@@ -97,20 +100,20 @@ export default {
         onDeleteHandler(userId) {
             this.$swal
                 .fire({
-                    title: "Are you sure to delete this user?",
-                    text: "You won't be able to revert this!",
+                    title: "Are you sure to change this user status?",
+                    // text: "You won't be able to revert this!",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
                     cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!"
+                    confirmButtonText: "Yes, change it!"
                 })
                 .then(result => {
                     if (result.value) {
-                        this.deleteUser(userId).then(() => {
+                        this.changeUserStatus(userId).then(() => {
                             this.$swal.fire(
                                 "Activated!",
-                                "User has been deleted.",
+                                "User status has been changed.",
                                 "success"
                             );
                         });

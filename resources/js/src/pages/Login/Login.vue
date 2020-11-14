@@ -35,6 +35,10 @@
                     ></b-form-input>
                 </b-form-group>
 
+                <router-link to="/forgot-password" class="goto-forgot-password-page">
+                    Forgot password
+                </router-link>
+
                 <b-button
                     type="submit"
                     class="login-page-submit-button"
@@ -46,6 +50,7 @@
                     <template v-else>Submit</template>
                 </b-button>
             </b-form>
+
         </div>
     </div>
 </template>
@@ -101,6 +106,18 @@ export default {
     padding: 30px 15px 0px;
     border: 5px solid $BROWN-10;
     box-shadow: 0px 2px 2px 0px $BROWN-5;
+}
+
+.goto-forgot-password-page {
+    display: block;
+    margin: -10px 0px 10px;
+    color: $BROWN-10;
+    font-weight: bold;
+    text-decoration: underline;
+
+    &:hover {
+        text-decoration: none;
+    }
 }
 
 .login-page-submit-button {
