@@ -30,6 +30,7 @@ Route::group([
 ], function () {
     // Admin Home Controller
     Route::get('orders-overview', 'HomeController@ordersOverview');
+    Route::get('inventory-overview', 'HomeController@inventoryOverview');
 
     // Admin User Controller
     Route::get('users', 'UserController@users');
