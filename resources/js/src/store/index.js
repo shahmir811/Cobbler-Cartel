@@ -14,6 +14,7 @@ import orders from "./modules/orders";
 import items from "./modules/items";
 import inventory from "./modules/inventory";
 import purchases from "./modules/purchases";
+import expenses from "./modules/expenses";
 
 export default new Vuex.Store({
     state,
@@ -26,6 +27,7 @@ export default new Vuex.Store({
         orders,
         items,
         inventory,
-        purchases
+        purchases,
+        expenses
     }
 });

@@ -76,6 +76,11 @@ Route::group([
     Route::get('getItem/{itemCode}', 'ScanQRCodeController@getItem');
     Route::post('updateItemsList', 'ScanQRCodeController@updateItemsList');
 
+    // Admin DailyExpense Controller
+    Route::get('daily-expense', 'DailyExpenseController@getAllExpenses');
+    Route::post('add-expense', 'DailyExpenseController@addExpense');
+    Route::delete('delete-expense/{id}', 'DailyExpenseController@deleteExpense');
+
 });
 
 Route::group([
@@ -86,6 +91,7 @@ Route::group([
 ], function () {
     // Employee Home Controller
     Route::get('orders-overview', 'HomeController@ordersOverview');
+    Route::get('inventory-overview', 'HomeController@inventoryOverview');
 
     // Employee User Controller
     Route::post('update-password/{id}', 'UserController@updatePassword');

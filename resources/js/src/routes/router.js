@@ -21,6 +21,7 @@ import NotFound from "../pages/Error/NotFound.vue";
 import ForgotPasswordPage from "../pages/Register/ForgotPassword.vue";
 import PasswordResetPage from "../pages/Register/PasswordReset.vue";
 import ScanBarCodePage from "../pages/Auth/ScanBarCode/ScanBarCode.vue";
+import DailyExpensesPage from "../pages/Auth/DailyExpense/DailyExpense.vue";
 
 // Employee Pages
 import MyProfilePage from "../pages/Auth/Profile/Profile.vue";
@@ -135,6 +136,12 @@ const router = new Router({
             path: "/scanbarcode",
             component: ScanBarCodePage,
             name: "scanbarcode",
+            meta: { guest: false, needsAuth: true }
+        },
+        {
+            path: "/daily-expenses",
+            component: DailyExpensesPage,
+            name: "daily-expenses",
             meta: { guest: false, needsAuth: true }
         },
         {

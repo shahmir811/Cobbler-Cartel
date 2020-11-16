@@ -60,19 +60,21 @@ export default {
     getInventoryChartData () {
       
       return new Promise((resolve, reject) => {
-        this.loading = true;
-        axios.get(`/${this.user.role}/inventory-overview`).then(response => {
-          const { names, counts } = this.getNamesAndCount(response.data.data.records);
-          this.inventoryLabel = names;
-          this.inventoryData = counts;
-          this.loading = false;
-          resolve();
-        })
-        .catch(error => {
-          console.log(error);
-          this.loading = false;
-          reject();
-        })
+        if(this.user) {
+          this.loading = true;
+          axios.get(`/${this.user.role}/inventory-overview`).then(response => {
+            const { names, counts } = this.getNamesAndCount(response.data.data.records);
+            this.inventoryLabel = names;
+            this.inventoryData = counts;
+            this.loading = false;
+            resolve();
+          })
+          .catch(error => {
+            console.log(error);
+            this.loading = false;
+            reject();
+          })          
+        }
       })
 
     },

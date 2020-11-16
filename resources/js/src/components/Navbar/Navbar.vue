@@ -25,8 +25,17 @@
                         </b-nav-item>
                     </b-navbar-nav>
 
-                    <b-nav-item-dropdown right v-if="user">
-                        <!-- Using 'button-content' slot -->
+                    <template v-if="user">
+                        <b-navbar-nav v-if="user.role === 'admin'">
+                            <b-nav-item href="#">
+                                <router-link to="/daily-expenses" class="navbar-link"
+                                    >Daily Expenses</router-link
+                                >
+                            </b-nav-item>
+                        </b-navbar-nav>                        
+                    </template>
+
+                    <b-nav-item-dropdown right v-if="user">                        
                         <template #button-content>
                             <em>Welcome {{ user.name }}</em>
                         </template>
@@ -36,6 +45,7 @@
                         <b-dropdown-item href="#"  @click.prevent="exitApplication">Sign Out</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
+
             </b-collapse>
 
         </b-navbar>

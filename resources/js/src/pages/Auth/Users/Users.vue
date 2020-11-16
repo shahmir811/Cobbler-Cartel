@@ -27,7 +27,7 @@
                             <td>{{ user.name }}</td>
                             <td>{{ user.email }}</td>
                             <td>{{ capitalize(user.role) }}</td>
-                            <td>{{ user.status }}</td>
+                            <td :class="user.status">{{ user.status }}</td>
                             <td>
                                 <router-link
                                     class="update-user-link"
@@ -167,4 +167,13 @@ export default {
     padding-left: 130px;
     color: $BROWN-12 !important;
 }
+
+.Active {
+    color: $CONFIRMED;
+}
+
+.Deactive {
+    color: $RED-3;
+}
+
 </style>

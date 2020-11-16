@@ -78,20 +78,22 @@ export default {
     getOrdersChartData() {
 
       return new Promise((resolve, reject) => {
-        this.loading = true;
-        axios.get(`/${this.user.role}/orders-overview`).then(response => {
-          const { names, counts, totalRecords } = this.getNamesAndCount(response.data.data.records);
-          this.$emit('processingOrdersCount', totalRecords);
-          this.ordersLabel = names;
-          this.ordersData = counts;
-          this.loading = false;
-          resolve();
-        })
-        .catch(error => {
-          console.log(error);
-          this.loading = false;
-          reject();
-        })
+        if(this.user) {
+          this.loading = true;
+          axios.get(`/${this.user.role}/orders-overview`).then(response => {
+            const { names, counts, totalRecords } = this.getNamesAndCount(response.data.data.records);
+            this.$emit('processingOrdersCount', totalRecords);
+            this.ordersLabel = names;
+            this.ordersData = counts;
+            this.loading = false;
+            resolve();
+          })
+          .catch(error => {
+            console.log(error);
+            this.loading = false;
+            reject();
+          })          
+        }
       })
 
     },
