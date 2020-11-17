@@ -22,6 +22,8 @@ import ForgotPasswordPage from "../pages/Register/ForgotPassword.vue";
 import PasswordResetPage from "../pages/Register/PasswordReset.vue";
 import ScanBarCodePage from "../pages/Auth/ScanBarCode/ScanBarCode.vue";
 import DailyExpensesPage from "../pages/Auth/DailyExpense/DailyExpense.vue";
+import LogsPage from "../pages/Auth/Logs/Logs.vue";
+import RevenuePage from "../pages/Auth/Revenue/Revenue.vue";
 
 // Employee Pages
 import MyProfilePage from "../pages/Auth/Profile/Profile.vue";
@@ -142,6 +144,18 @@ const router = new Router({
             path: "/daily-expenses",
             component: DailyExpensesPage,
             name: "daily-expenses",
+            meta: { guest: false, needsAuth: true }
+        },
+        {
+            path: "/logs",
+            component: LogsPage,
+            name: "logs",
+            meta: { guest: false, needsAuth: true }
+        },
+        {
+            path: "/revenues",
+            component: RevenuePage,
+            name: "revenues",
             meta: { guest: false, needsAuth: true }
         },
         {

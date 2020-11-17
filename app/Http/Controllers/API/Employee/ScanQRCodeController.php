@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\Employee;
 
 use Auth;
-use App\Models\{Order, Status, Message, Item, Inventory};
+use App\Models\{Order, Status, Message, Item, Inventory, Log};
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\{ScanOrderResource, StatusResource, ItemResource};
@@ -49,6 +49,12 @@ class ScanQRCodeController extends Controller
                 $order->statuses_id = $record['statuses_id'];
                 $order->user_id = Auth::id();
                 $order->save();
+
+                // Add Log
+                $description = 'Changed status of order: ' . $order->order_no . ' to ' . $order->status->name;
+                $type = '';
+                $amount = 0;
+                $this->addEntryToLogsTable($description, $type, $amount);    
                 
                 // store record in statuses table
                 $this->addRecordToMessagesTable($order->order_no, $order->delivery_customer, $order->status->name, $order->buyer_phone);
@@ -93,12 +99,21 @@ class ScanQRCodeController extends Controller
                 if($inventory) {
                     $inventory->quantity += $quantity;
                     $inventory->save();
+
+                    // Add Log
+                    $description = 'Inventory Item: ' . $inventory->item->name . ' is changed by ' . $quantity;
+                    $type = '';
+                    $amount = 0;
+                    $this->addEntryToLogsTable($description, $type, $amount);    
                 }
                 else {
                     $inventory = new Inventory;
                     $inventory->item_id = $item->id;
                     $inventory->quantity = $quantity;
-                    $inventory->save();                    
+                    $inventory->save();
+
+                    // Add Log
+                    $description = 'New inventory item : ' . $inventory->item->name . ' is added';                 
                 }
             }
 
@@ -130,5 +145,11 @@ class ScanQRCodeController extends Controller
 
         return;
     }
+
+    private function addEntryToLogsTable($description, $type, $amount)
+    {
+        $log = new Log;
+        $log->insertLog($description, $type, $amount);
+    }    
 
 }

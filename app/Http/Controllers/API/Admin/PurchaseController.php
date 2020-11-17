@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\Admin;
 
-use App\Models\{Purchase};
+use App\Models\{Purchase, Revenue};
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\PurchaseResource;
@@ -31,6 +31,13 @@ class PurchaseController extends Controller
         $purchase->total_amount = $purchase->getTotalAmount($request->item_id, $request->quantity);
         $purchase->save();
 
+        // Add Entry To revenues table
+        $description = 'Item: ' . $purchase->item->name . ' , quantity: ' . $purchase->quantity;
+        $type = 'Purchase';
+        $amount =  $purchase->total_amount;
+        $reference_id = $purchase->id;
+        $this->addEntryToRevenueTable($description, $type, $amount, $reference_id);
+
         return response() -> json([
             'status' => 1,
             'message' => 'New purchase added', 
@@ -50,6 +57,14 @@ class PurchaseController extends Controller
         $purchase->total_amount = $purchase->getTotalAmount($request->item_id, $request->quantity);
         $purchase->save();
 
+        // Update Entry in revenue table
+        $description = 'Item: ' . $purchase->item->name . ' , quantity: ' . $purchase->quantity;
+        $type = 'Purchase';
+        $amount =  $purchase->total_amount;
+        $reference_id = $purchase->id;
+        $this->updateEntyInRevenueTable($description, $type, $amount, $reference_id);
+
+
         return response() -> json([
             'status' => 1,
             'message' => 'Purchase upadted', 
@@ -63,6 +78,9 @@ class PurchaseController extends Controller
     public function deletePurchaseItem($id)
     {
         Purchase::where('id', '=', $id)->delete();
+
+        // Remove entry from revenue table
+        $this->deleteEntryFromRevenueTable('Purchase', $id);
         
         return response()->json([
             'status' => 1,
@@ -70,4 +88,34 @@ class PurchaseController extends Controller
         ], 200);               
     }
         
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    private function addEntryToRevenueTable($description, $type, $amount, $reference_id)
+    {
+        $revenue = new Revenue;
+        $revenue->insertRecord($description, $type, $amount, $reference_id);
+    }    
+
+    private function updateEntyInRevenueTable($description, $type, $amount, $reference_id)
+    {
+        $revenue = Revenue::where('reference_id', '=', $reference_id)
+                            ->where('type', '=', $type)
+                            ->first();
+
+        $revenue->description = $description;
+        $revenue->amount = $amount;
+        $revenue->save();
+    }
+
+    private function deleteEntryFromRevenueTable($type, $reference_id)
+    {
+        $revenue = Revenue::where('reference_id', '=', $reference_id)
+                            ->where('type', '=', $type)
+                            ->first();   
+                            
+        if($revenue) {
+            $revenue->delete();     
+        }  
+    }
+
 }

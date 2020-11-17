@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\Admin;
 
 use DB;
-use App\Models\{Order, CompleteOrder, Status, Message};
+use App\Models\{Order, CompleteOrder, Status, Message, Revenue};
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\{OrderResource};
@@ -50,6 +50,13 @@ class OrderController extends Controller
         // remove order from orders table
         // $order->delete();
 
+        // Add Entry to revenue table
+        $description = 'Order no: ' . $order->order_no . ' finished';
+        $type = 'Sale';
+        $amount = $order->total;
+        $reference_id = $order->id;
+        $this->addEntryToRevenueTable($description, $type, $amount, $reference_id);             
+
         return response() -> json([
             'status' => 1,
             'message' => "Order inserted successfully",
@@ -79,27 +86,25 @@ class OrderController extends Controller
         //     $order->save();
         // }
 
+        $finished_id = Status::where('name', '=', 'finished')->pluck('id')->first();
+        // if order is finished then add record to revenues table else remove record from revenues table
+        if($order->statuses_id == $finished_id ) {
+            $description = 'Order no: ' . $order->order_no . ' finished';
+            $type = 'Sale';
+            $amount = $order->total;
+            $reference_id = $order->id;
+            $this->addEntryToRevenueTable($description, $type, $amount, $reference_id);    
+
+        } else {
+            $this->deleteEntryFromRevenueTable('Sale', $order->id);
+        }
+
+
         return response() -> json([
             'status' => 1,
             'message' => "Order status has been updated successfully",
         ], 200);
 
-    }
-
-
-    private function addRecordToMessagesTable($order_no, $delivery_customer, $type, $phone_number)
-    {
-        $record = [
-            'order_no' => $order_no,
-            'name' =>  $delivery_customer,
-            'type' => $type,
-            'phone_number' => $phone_number
-        ];
-
-        $message = new Message;
-        $message->insertRecord($record);
-
-        return;
     }
 
     public function getCompletedOrders()
@@ -120,11 +125,45 @@ class OrderController extends Controller
         ], 200);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////    
+
+    private function addRecordToMessagesTable($order_no, $delivery_customer, $type, $phone_number)
+    {
+        $record = [
+            'order_no' => $order_no,
+            'name' =>  $delivery_customer,
+            'type' => $type,
+            'phone_number' => $phone_number
+        ];
+
+        $message = new Message;
+        $message->insertRecord($record);
+
+        return;
+    }
+
     private function getStatusId($stausName)
     {
         $getId = Status::where('name', '=', $stausName)->pluck('id')->first();
         return $getId;
     }
 
+    private function addEntryToRevenueTable($description, $type, $amount, $reference_id)
+    {
+        $revenue = new Revenue;
+        $revenue->insertRecord($description, $type, $amount, $reference_id);
+    }   
+
+    private function deleteEntryFromRevenueTable($type, $reference_id)
+    {
+        $revenue = Revenue::where('reference_id', '=', $reference_id)
+                            ->where('type', '=', $type)
+                            ->first();
+                            
+        if($revenue) {
+            $revenue->delete();     
+        }
+    }    
+    
     
 }

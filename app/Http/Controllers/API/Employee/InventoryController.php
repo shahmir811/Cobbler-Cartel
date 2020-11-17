@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\Employee;
 
-use App\Models\{Inventory};
+use App\Models\{Inventory, Log};
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\InventoryResource;
@@ -30,6 +30,12 @@ class InventoryController extends Controller
             $newItem->item_id = $request->item_id;
             $newItem->save();
 
+            // Add Log
+            $description = 'Add item in inventory: ' . $newItem->item->name;
+            $type = '';
+            $amount = 0;
+            $this->addEntryToLogsTable($description, $type, $amount);            
+
             return response()->json([
                 'status' => 1,
                 'message' => 'Added new inventory item', 
@@ -41,7 +47,14 @@ class InventoryController extends Controller
         } else {
             $inventoryItem = Inventory::where('item_id', '=', $request->item_id)->first();
             $inventoryItem->quantity = $request->quantity;
-            $inventoryItem->save();    
+            $inventoryItem->save();
+            
+            
+            // Add Log
+            $description = 'Update quantity of ' . $inventoryItem->item->name . ' in inventory';
+            $type = '';
+            $amount = 0;
+            $this->addEntryToLogsTable($description, $type, $amount);       
 
             return response()->json([
                 'status' => 1,
@@ -61,6 +74,12 @@ class InventoryController extends Controller
         $inventoryItem->item_id = $request->item_id;
         $inventoryItem->save();
 
+        // Add Log
+        $description = 'Changed inventory item quantity: ' . $inventoryItem->item->name;
+        $type = '';
+        $amount = 0;
+        $this->addEntryToLogsTable($description, $type, $amount);    
+
         return response()->json([
             'status' => 1,
             'message' => 'Updated inventory item', 
@@ -73,8 +92,15 @@ class InventoryController extends Controller
 
     public function deleteInventoryItem($id)
     {
-        Inventory::where('id', '=', $id)->delete();
-        
+        $inventory = Inventory::where('id', '=', $id)->first();
+        // Add Log
+        $description = 'Removed inventory item: ' . $inventory->item->name;
+        $type = '';
+        $amount = 0;
+        $this->addEntryToLogsTable($description, $type, $amount);    
+
+        $inventory->delete();
+
         return response()->json([
             'status' => 1,
             'message' => 'Inventory item deleted successfully', 
@@ -83,5 +109,11 @@ class InventoryController extends Controller
 
     private function checkIfSimilarItemIdRecordAlreadyExists($item_id){
         return Inventory::where('item_id', '=', $item_id)->exists();
+    }
+
+    private function addEntryToLogsTable($description, $type, $amount)
+    {
+        $log = new Log;
+        $log->insertLog($description, $type, $amount);
     }
 }

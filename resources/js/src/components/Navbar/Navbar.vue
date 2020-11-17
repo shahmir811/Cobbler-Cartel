@@ -32,6 +32,16 @@
                                     >Daily Expenses</router-link
                                 >
                             </b-nav-item>
+                            <b-nav-item href="#">
+                                <router-link to="/logs" class="navbar-link"
+                                    >Logs</router-link
+                                >
+                            </b-nav-item>
+                            <b-nav-item href="#">
+                                <router-link to="/revenues" class="navbar-link"
+                                    >Account Management</router-link>
+                                
+                            </b-nav-item>
                         </b-navbar-nav>                        
                     </template>
 

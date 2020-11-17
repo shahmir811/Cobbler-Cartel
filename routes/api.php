@@ -72,7 +72,6 @@ Route::group([
     Route::get('getAllStatuses', 'ScanQRCodeController@getAllStatuses');    
     Route::get('getOrder/{orderNo}', 'ScanQRCodeController@getOrder');
     Route::post('updateOrderList', 'ScanQRCodeController@updateOrderList');
-
     Route::get('getItem/{itemCode}', 'ScanQRCodeController@getItem');
     Route::post('updateItemsList', 'ScanQRCodeController@updateItemsList');
 
@@ -80,6 +79,13 @@ Route::group([
     Route::get('daily-expense', 'DailyExpenseController@getAllExpenses');
     Route::post('add-expense', 'DailyExpenseController@addExpense');
     Route::delete('delete-expense/{id}', 'DailyExpenseController@deleteExpense');
+
+
+    // Admin Logs Controller
+    Route::get('logs', 'LogsController@getLogs');
+
+    // Admin Revenue Controller
+    Route::get('revenues', 'RevenueController@getRevenues');
 
 });
 
@@ -119,7 +125,6 @@ Route::group([
     Route::get('getAllStatuses', 'ScanQRCodeController@getAllStatuses');    
     Route::get('getOrder/{orderNo}', 'ScanQRCodeController@getOrder');
     Route::post('updateOrderList', 'ScanQRCodeController@updateOrderList');
-
     Route::get('getItem/{itemCode}', 'ScanQRCodeController@getItem');
     Route::post('updateItemsList', 'ScanQRCodeController@updateItemsList');    
 
