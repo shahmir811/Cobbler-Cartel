@@ -6,7 +6,8 @@ export const clearErrors = state => (state.errors = []);
 
 export const setError = (state, payload) => (state.errors = payload);
 
-export const getUserToUpdate = (state, id) => {
+export const getUserToUpdate = (state, comingId) => {
+    const id = parseInt(comingId);
     state.updateUser = state.users.find(user => user.id === id);
 };
 

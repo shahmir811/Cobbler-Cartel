@@ -73,12 +73,22 @@ export default {
     computed: {
         ...mapGetters({
             loading: "orders/loading",
-            order: "orders/selectOrderToUpdateStatus"
+            order: "orders/selectOrderToUpdateStatus",
+            orders: 'orders/orders',
         })
     },
     mounted() {
-        this.selectedStatus = this.order.status;
-        this.orderNo = this.order.order_no;
+        if(this.orders.length > 0) {
+            this.selectedStatus = this.order.status;
+            this.orderNo = this.order.order_no;
+        } else {
+            let id = this.$route.params.id;
+            this.getAllOrdersFromChangeOrderStatusPage(id)
+            .then(() => {
+                this.selectedStatus = this.order.status;
+                this.orderNo = this.order.order_no;                
+            })
+        }
     },
     data() {
         return {
@@ -103,7 +113,8 @@ export default {
     },
     methods: {
         ...mapActions({
-            updateOrderStatus: "orders/updateOrderStatus"
+            updateOrderStatus: "orders/updateOrderStatus",
+            getAllOrdersFromChangeOrderStatusPage: 'orders/getAllOrdersFromChangeOrderStatusPage',
         }),
         onChangeAndUpdateOrderStatus() {
             let data = {

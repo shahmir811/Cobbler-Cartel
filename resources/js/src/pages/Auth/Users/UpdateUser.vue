@@ -120,10 +120,20 @@ export default {
         })
     },
     mounted() {
-        this.selectUserToUpdate(this.$route.params.id);
-        this.form = { ...this.updateUser };
-        this.form.role_id = this.form.role === "admin" ? 1 : 2;
-        this.form.password = "";
+        if(this.users.length > 0) {
+            this.selectUserToUpdate(this.$route.params.id);
+            this.form = { ...this.updateUser };
+            this.form.role_id = this.form.role === "admin" ? 1 : 2;
+            this.form.password = "";
+        
+        } else {
+            this.fetchUsersFromUpdateUserPage().then(() => {
+                this.selectUserToUpdate(this.$route.params.id);
+                this.form = { ...this.updateUser };
+                this.form.role_id = this.form.role === "admin" ? 1 : 2;
+                this.form.password = "";                
+            })
+        }
     },
     data() {
         return {
@@ -137,7 +147,8 @@ export default {
     methods: {
         ...mapActions({
             UpdateUserDetails: "user/UpdateUserDetails",
-            selectUserToUpdate: "user/selectUserToUpdate"
+            selectUserToUpdate: "user/selectUserToUpdate",
+            fetchUsersFromUpdateUserPage: "user/fetchUsersFromUpdateUserPage",
         }),
         submitForm() {
             this.UpdateUserDetails(this.form);

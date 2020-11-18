@@ -17,6 +17,31 @@ export const fetchUsers = async ({ state, commit, rootState, dispatch }) => {
     }
 };
 
+/////////////////////// Fetch All Users From Update users ///////////////////////
+export const fetchUsersFromUpdateUserPage = ({
+    state,
+    commit,
+    rootState,
+    dispatch
+}) => {
+    commit("setLoading", true);
+
+    return new Promise((resolve, reject) => {
+        axios
+            .get("/admin/users")
+            .then(response => {
+                commit("setUsers", response.data.data);
+                commit("setLoading", false);
+                resolve();
+            })
+            .catch(error => {
+                console.log(error);
+                commit("setLoading", false);
+                reject();
+            });
+    });
+};
+
 /////////////////////// Add User ///////////////////////
 export const addNewUser = async (
     { state, commit, rootState, dispatch },

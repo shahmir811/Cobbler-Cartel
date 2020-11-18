@@ -55,7 +55,8 @@ export const removeCompleteOrder = (state, orderNo) => {
     );
 };
 
-export const selectOrderToChangeStatus = (state, id) => {
+export const selectOrderToChangeStatus = (state, comingId) => {
+    const id = parseInt(comingId);
     state.selectOrderToUpdateStatus = state.filteredOrders.find(
         order => order.id === id
     );

@@ -1,6 +1,7 @@
 import axios from "../../BaseUrl";
 import router from "../../../routes/router";
 
+/////////////////////// Fetch All Orders ///////////////////////
 export const getAllOrders = async ({ state, commit, rootState, dispatch }) => {
     if (!rootState.auth.user) {
         return;
@@ -21,6 +22,37 @@ export const getAllOrders = async ({ state, commit, rootState, dispatch }) => {
 
         commit("setLoading", false);
     }
+};
+
+/////////////////////// Fetch All orders From Update order status ///////////////////////
+export const getAllOrdersFromChangeOrderStatusPage = (
+    { state, commit, rootState, dispatch },
+    id
+) => {
+    if (!rootState.auth.user) {
+        return;
+    }
+
+    const { role } = rootState.auth.user;
+
+    commit("setLoading", true);
+    return new Promise((resolve, reject) => {
+        axios
+            .get(`/${role}/orders`)
+            .then(response => {
+                commit("setOrders", response.data.data.orders);
+                commit("filterMyOrders");
+                commit("getNoFilterRecord");
+                commit("setLoading", false);
+                commit("selectOrderToChangeStatus", id);
+                resolve();
+            })
+            .catch(error => {
+                console.log(error);
+                commit("setLoading", false);
+                reject();
+            });
+    });
 };
 
 export const getOrderByStatus = ({ state, commit }, status) => {
