@@ -5,7 +5,7 @@ namespace App\Imports;
 use Auth;
 use DateTime;
 use Carbon\Carbon;
-use App\Models\{Order, Status};
+use App\Models\{Order, Status, InitialOrder};
 use Maatwebsite\Excel\Concerns\ToModel;
 // use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -23,6 +23,10 @@ class OrdersImport implements ToModel, WithHeadingRow
         // if not we will dump the record in database
 
         if(!Order::where('order_no', '=', $row['order'])->exists()) {
+
+            $phone = $this->makeProperPhoneNo(trim($row['buyers_phone'],'"'));
+
+            $this->addRecordToInitialOrdersTable($row['delivery_customer'], $row['order'], $row['items_name'], $phone);
 
             return new Order([
 
@@ -44,7 +48,8 @@ class OrdersImport implements ToModel, WithHeadingRow
                 "delivery_city" => $row['delivery_city'],
                 "delivery_address" => $row['delivery_street_namenumber'],
                 "delivery_zip_code" => $row['delivery_zip_code'],
-                "buyer_phone" => trim($row['buyers_phone'],'"'), // remove quotes from string
+                // "buyer_phone" => trim($row['buyers_phone'],'"'), // remove quotes from string
+                "buyer_phone" => $phone, // remove quotes from string
                 "shipping_label" => $row['shipping_label'],
                 "buyer_email" => $row['buyers_email'],
                 "delivery_method" => $row['delivery_method'],
@@ -102,5 +107,31 @@ class OrdersImport implements ToModel, WithHeadingRow
         $merge = new DateTime($date->format('Y-m-d') .' ' .$time->format('H:i:s'));
         return $merge->format('Y-m-d H:i:s'); // Outputs '2017-03-14 13:37:42'
 
+    }
+
+
+    private function addRecordToInitialOrdersTable($name, $order_no, $product, $phone_number)
+    {
+        $record = new InitialOrder;
+        $record->name = $name;
+        $record->order_no = $order_no;
+        $record->product = $product;    
+        $record->phone_number = $phone_number;
+        $record->status = 'confirmed';
+        $record->save();
+    }
+
+    private function makeProperPhoneNo($phone_number)
+    {
+        $phone = str_replace(' ', '', $phone_number);
+        $phone = str_replace('-', '', $phone);
+        if (strlen($phone) == 13) {
+            $phone = '0' . substr($phone, 3);
+        }
+        if (strlen($phone) == 10) {
+            $phone = '0' . $phone;
+        }
+        
+        return $phone;
     }
 }

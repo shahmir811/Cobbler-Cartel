@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\API\Employee;
 
-use App\Models\{Log};
+// use Excel;
+use App\Models\{Message, InitialOrder};
 use App\Utils\ExcelFileImport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,18 +14,27 @@ class ExcelController extends Controller
     public function importDataToDatabase(ExcelFileImportRequest $request)
     {
         $import = new ExcelFileImport;
-        $this->addEntryToLogTable();
-        
-        return $import->ImportFile($request);
+        $import->ImportFile($request);
+        $this->addRecordsToMessagesTable();
+        return;
     }
 
-    private function addEntryToLogTable()
+    private function addRecordsToMessagesTable()
     {
-        $description = 'Import excel file';
-        $type = '';
-        $amount = 0;
-        $log = new Log;
-        $log->insertLog($description, $type, $amount);
+        $orders = InitialOrder::all();
+        $message = new Message;
 
+        foreach ($orders as $order) {
+            $record = [
+                'order_no' => $order->order_no,
+                'name' =>  $order->name,
+                'type' => $order->status,
+                'phone_number' => $order->phone_number,
+                'product' => $order->product,
+            ];            
+
+            $message->insertRecord($record);
+            $order->delete();
+        }
     }
 }

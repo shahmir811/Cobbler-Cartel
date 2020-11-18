@@ -42,7 +42,7 @@ class OrderController extends Controller
         $order->save();
 
         // Add record to messages table
-        $this->addRecordToMessagesTable($order->order_no, $order->delivery_customer, 'finished', $order->buyer_phone);
+        $this->addRecordToMessagesTable($order->order_no, $order->delivery_customer, 'finished', $order->buyer_phone, $order->item_name);
 
         // Add Log
         $description = 'Changed status of order: ' . $order->order_no . ' to ' . ucfirst($order->status->name);
@@ -71,7 +71,7 @@ class OrderController extends Controller
         $order->save();        
 
         // Add record to messages table
-        $this->addRecordToMessagesTable($order->order_no, $order->delivery_customer, $request->statusName, $order->buyer_phone);
+        $this->addRecordToMessagesTable($order->order_no, $order->delivery_customer, $request->statusName, $order->buyer_phone, $order->item_name);
 
         // Add Log
         $description = 'Changed status of order: ' . $order->order_no . ' to ' . ucfirst($order->status->name);
@@ -120,13 +120,14 @@ class OrderController extends Controller
 
     ////////////////////////////////////////////////////////////////////////////////////
 
-    private function addRecordToMessagesTable($order_no, $delivery_customer, $type, $phone_number)
+    private function addRecordToMessagesTable($order_no, $delivery_customer, $type, $phone_number, $product)
     {
         $record = [
             'order_no' => $order_no,
             'name' =>  $delivery_customer,
             'type' => $type,
-            'phone_number' => $phone_number
+            'phone_number' => $phone_number,
+            'product' => $product,
         ];
 
         $message = new Message;
