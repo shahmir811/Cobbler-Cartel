@@ -50,7 +50,7 @@ class CreateCompleteOrdersTable extends Migration
             $table->text('notes_to_seller')->nullable(); // nullable
             $table->integer('shipping');
             $table->integer('tax');
-            $table->integer('gift_card');
+            $table->integer('gift_card')->nullable(); // nullable
             $table->double('total', 8, 2);
             $table->string('currency');
             $table->string('payment_mentod');
