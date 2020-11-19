@@ -74,7 +74,7 @@ class CompleteOrder extends Model
             'quantity_refunded' => $order->quantity_refunded,
             'quatity_restocked' => $order->quatity_restocked,
             'additional_info' => $order->additional_info,
-            'user_id' => Auth::id(),
+            'user_id' => $order->user_id,
             'statuses_id' => $completeStatusId,
         ];
 

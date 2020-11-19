@@ -110,6 +110,9 @@ export default {
           try {
             this.loading = true;
 
+            if(!this.user) {
+              return false;
+            }
             const response = await axios.get(`/${this.user.role}/getOrder/${value}`);
             this.records.push(response.data.data.order);
 
@@ -124,6 +127,11 @@ export default {
       },
       async getAllStatuses() {
         try {
+          
+          if(!this.user) {
+            return false;
+          }
+
           const response = await axios.get(`/${this.user.role}/getAllStatuses`);
           this.statuses = response.data.data.statuses;
         } catch (error) {
@@ -144,6 +152,11 @@ export default {
 
         if(this.records.length > 0) {
           try {
+
+            if(!this.user) {
+              return false;
+            }
+
             this.loading = true;
             await axios.post(`/${this.user.role}/updateOrderList`, {
               records: this.records

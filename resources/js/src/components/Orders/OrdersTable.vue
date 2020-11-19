@@ -31,7 +31,7 @@
                         <tr
                             v-for="(order, index) in filteredOrders"
                             :key="order.id"
-                            :class="`daysLeft-${order.days_left}`"
+                            :class="showRedLine(order)"
                         >
                             <td>{{ ++index }}</td>
                             <td>{{ order.order_no }}</td>
@@ -142,6 +142,10 @@ export default {
             this.getOrderDetails(id);
             this.showOrderDetailsModal = true;
         },
+        showRedLine(order) {
+            // Don't show red on completed-orders route
+            return this.$route.name === 'completed-orders' ? '' : `daysLeft-${order.days_left}`;
+        },        
         updateOrderStatus(orderId) {
             this.selectOrder(orderId);
             this.$router.push({
