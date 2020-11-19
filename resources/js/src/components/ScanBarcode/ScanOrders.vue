@@ -1,5 +1,12 @@
 <template>
     <div class="scan-order-component-wrapping-div">
+
+        <OrderDetailsModal
+            :order="orderDetails"
+            :showOrderDetailsModal="showOrderDetailsModal"
+            :closeModal="closeModal"
+        />
+
         <h1>Scan Orders</h1>
 
         <div class="row">
@@ -32,7 +39,7 @@
               </thead>
               <tbody>
                 <tr v-for="record in records" :key="record.id">
-                  <td>{{ record.order_no }}</td>
+                  <td @click.prevent="selectOrderToViewDetails(record.id)" class="orderDetails">{{ record.order_no }}</td>
                   <td>
                     <select class="form-control" v-model="record.statuses_id">
                       <option :value="status.id" v-for="status in statuses" :key="status.id">{{ status.name  }}</option>
@@ -56,11 +63,15 @@
 import axios from '../../store/BaseUrl';
 import { mapGetters, mapActions } from 'vuex';
 import _ from 'lodash';
+import OrderDetailsModal from "./OrderDetailsModal";
 
 export default {
     name: "ScanOrders",
     mounted() {
       this.getAllStatuses();
+    },
+    components: {
+      OrderDetailsModal
     },
     computed: {
       ...mapGetters({
@@ -81,6 +92,8 @@ export default {
         searchOrder: '',
         statuses: [],
         records: [],
+        showOrderDetailsModal: false,
+        orderDetails: null,
         recordsList: [
           {id: 1, order_no: "4250632501512", statuses_id: 2, status: "confirmed"},
           {id: 3, order_no: "6001087357258", statuses_id: 2, status: "bottom"},
@@ -144,8 +157,15 @@ export default {
             this.loading = false;
           }
         }
-
-      }   
+      },
+      selectOrderToViewDetails(id) {
+        this.orderDetails = this.records.find(record => record.id === id);
+        this.showOrderDetailsModal = true;
+      },
+      closeModal() {
+        this.orderDetails = null;
+        this.showOrderDetailsModal = false;
+      },    
     }
 };
 </script>
@@ -162,6 +182,14 @@ export default {
 
   a {
     color: red !important;
+  }
+}
+
+.orderDetails {
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
   }
 }
 

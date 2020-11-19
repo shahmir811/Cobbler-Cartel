@@ -6,7 +6,7 @@ use Auth;
 use App\Models\{Order, Status, Message, Item, Inventory};
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Resources\{ScanOrderResource, StatusResource, ItemResource};
+use App\Http\Resources\{StatusResource, ItemResource, OrderResource};
 
 class ScanQRCodeController extends Controller
 {
@@ -32,7 +32,7 @@ class ScanQRCodeController extends Controller
             'status' => 1,
             'message' => "Order record",
             'data' => [
-                'order' => new ScanOrderResource($order)
+                'order' => new OrderResource($order)
             ]
         ], 200);
     }
