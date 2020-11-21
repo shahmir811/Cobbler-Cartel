@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Admin;
 
 use DB;
+use Auth;
 use App\Models\{Order, CompleteOrder, Status, Message, Revenue};
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -67,6 +68,7 @@ class OrderController extends Controller
     {
         $order = Order::where('order_no', '=',$orderNo)->first();
         $order->statuses_id = $this->getStatusId($request->statusName);
+        $order->user_id = Auth::id();
         $order->save();        
 
         // Add record to messages table

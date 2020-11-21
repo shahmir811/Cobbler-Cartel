@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Employee;
 
 use DB;
+use Auth;
 use App\Models\{Order, CompleteOrder, Status, Message, Log, Revenue};
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -67,6 +68,7 @@ class OrderController extends Controller
     public function updateOrderStatus($orderNo, Request $request)
     {
         $order = Order::where('order_no', '=',$orderNo)->first();
+        $order->user_id = Auth::id();
         $order->statuses_id = $this->getStatusId($request->statusName);
         $order->save();        
 
