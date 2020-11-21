@@ -12,10 +12,10 @@ const generateAndDownloadBarcodeInPDF = orderNo => {
         const doc = new jsPDF("p", "mm", "a4");
         // Following we add 5 barcode images
         doc.addImage(realImage, "PNG", 10, 10);
-        doc.addImage(realImage, "PNG", 10, 60);
-        doc.addImage(realImage, "PNG", 10, 110);
-        doc.addImage(realImage, "PNG", 10, 160);
-        doc.addImage(realImage, "PNG", 10, 210);
+        // doc.addImage(realImage, "PNG", 10, 60);
+        // doc.addImage(realImage, "PNG", 10, 110);
+        // doc.addImage(realImage, "PNG", 10, 160);
+        // doc.addImage(realImage, "PNG", 10, 210);
 
         doc.save("barcode.pdf");
     });

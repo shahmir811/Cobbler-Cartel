@@ -5,6 +5,19 @@
             :closeModal="closeModal"
         />
 
+        <div class="row mb-10">
+            <div class="col-md-2 offset-md-10">
+                <a 
+                    href="#" 
+                    class="btn btn-success" 
+                    :class="anyOrderSelected ? '' : 'disabled'"
+                    @click.prevent="downloadMultipleBarCodes"
+                >
+                    Download Barcodes
+                </a>
+            </div>
+        </div>
+
         <b-row v-if="orders && !loading" class="admin-show-orders-table-div">
             <b-col cols="12">
                 <table class="table table-header table-striped">
@@ -13,6 +26,7 @@
                         :class="status ? status : 'processing'"
                     >
                         <tr>
+                            <th v-if="url === 'orders'"></th>
                             <th scope="col">S. No</th>
                             <th scope="col">Order No.</th>
                             <th scope="col">Order Received</th>
@@ -33,6 +47,14 @@
                             :key="order.id"
                             :class="showRedLine(order)"
                         >
+                            <td v-if="url === 'orders'">
+                                <input 
+                                    type="checkbox" 
+                                    id="order.order_no" 
+                                    :value="order.order_no" 
+                                    v-model="selectedOrders" 
+                                />
+                            </td>
                             <td>{{ ++index }}</td>
                             <td>{{ order.order_no }}</td>
                             <td>{{ order.order_received_at }}</td>
@@ -94,7 +116,8 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import {generateAndDownloadBarcodeInPDF} from './generateBarcode'; 
+import {generateAndDownloadBarcodeInPDF} from './generateBarcode';
+import { getMultipleOrderNumbers } from './generateMultipleBarcodes';
 import JsBarcode from "jsbarcode";
 
 import OrderDetailsModal from "./OrderDetailsModal";
@@ -111,14 +134,25 @@ export default {
             filteredOrders: "orders/filteredOrders",
             countOrdersByStatus: "orders/countOrdersByStatus",
             role: "auth/role"
-        })
+        }),
+        anyOrderSelected() {
+            return this.selectedOrders.length > 0 ? true : false;
+        }
+    },
+    mounted() {
+        // if(this.url === 'orders') {
+        //     console.log("YES orders endpoint");
+        //     this.filteredOrders;
+        // }
     },
     components: {
         OrderDetailsModal
     },
     data() {
         return {
-            showOrderDetailsModal: false
+            showOrderDetailsModal: false,
+            url: this.$route.name,
+            selectedOrders: [],
         };
     },
     methods: {
@@ -202,6 +236,9 @@ export default {
         generateAndDownloadBarCode(orderNo) {
             generateAndDownloadBarcodeInPDF(orderNo);
         },
+        downloadMultipleBarCodes() {
+            getMultipleOrderNumbers(this.selectedOrders);
+        }
     }
 };
 </script>
