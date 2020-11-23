@@ -27,8 +27,6 @@ class SendSms
 
     $response = Http::get($url);
 
-    echo $response->status();
-
     return $response->status() == 200 ? true : false;
   }
 

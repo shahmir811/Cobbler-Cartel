@@ -37,11 +37,11 @@ class Message extends Model
 
         } else if($statusName == 'upper') {
             
-            $message = 'Dear ' . $name . ', this message is sent to inform you that your shoe is now in the upper stage of the production. Here we make the upper part of the shoe, the craft on the upper layer of the leather and colouring.';
+            $message = 'Dear ' . $name . ', this message is sent to inform you that your shoe is now in the upper stage of the production.';
 
         } else if($statusName == 'bottom') {
             
-            $message = 'Dear ' . $name . ', this message is sent to inform you that your shoe is now in its bottom production. Here we make the sole of the shoe along with final touching and finishing.';
+            $message = 'Dear ' . $name . ', this message is sent to inform you that your shoe is now in its bottom sole production stage.';
         
         } else if($statusName == 'finished') {
             
@@ -49,7 +49,7 @@ class Message extends Model
         
         } else if($statusName == 'dispatched') {
             
-            $message = 'Dear ' . $name . ', your shoe has been dispatched. It will reach you in 2-3 working days. Please keep the amount ready to avoid any inconvenience.';
+            $message = 'Dear ' . $name . ', your shoe has been dispatched. It will reach you in 2-3 working days. Please keep the amount ready to avoid any inconvenience';
         
         } else {
             $message = 'Dear ' . $name . ', your order ' . $orderNo . ' has been stocked';
