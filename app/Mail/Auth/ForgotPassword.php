@@ -22,6 +22,9 @@ class ForgotPassword extends Mailable
 
     public function build()
     {
-        return $this->from('support@cobblercartel.com')->subject("Password reset link")->markdown('emails.auth.forgot-password');
+        return $this->from('support@cobblercartel.com')
+                    ->to($this->user->email)
+                    ->subject("Password reset link")
+                    ->markdown('emails.auth.forgot-password');
     }
 }
