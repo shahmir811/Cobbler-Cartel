@@ -13,15 +13,18 @@ class Message extends Model
 
     public function insertRecord($data)
     {
+        if($data["type"] == 'confirmed' || $data["type"] == 'upper' || $data["type"] == 'bottom' || $data["type"] == 'dispatched') {
+            
+            $newRecord = $data;
+            $newRecord = [
+                'type' => $data["type"],
+                'description' => $this->getMessageDescriptionBasedOnStatus($data["name"], $data["type"], $data['order_no'], $data['product']),
+                'phone_number' => $data["phone_number"]
+            ];
 
-        $newRecord = $data;
-        $newRecord = [
-            'type' => $data["type"],
-            'description' => $this->getMessageDescriptionBasedOnStatus($data["name"], $data["type"], $data['order_no'], $data['product']),
-            'phone_number' => $data["phone_number"]
-        ];
+            return $this->create($newRecord);
+        }
 
-        return $this->create($newRecord);
         
     }
 

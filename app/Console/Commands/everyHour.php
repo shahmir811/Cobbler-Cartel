@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Utils\SendSms;
 use App\Models\{Message};
 use Illuminate\Console\Command;
 
@@ -40,9 +41,12 @@ class everyHour extends Command
     {
         $messages = Message::where('status', '=', 0)->get();
         foreach ($messages as $message) {
-            $contact_number = '92' . substr($message->phone_number, 1);
-            echo "Send SMS to number: " . $contact_number;
-            $message->status = 1;
+            // $contact_number = '92' . substr($message->phone_number, 1);
+            $sendSms = new SendSms($message);
+            $response = $sendSms->deliverMessage();
+            if($response) {
+                $message->status = 1;
+            }
             $message->save();
         }
         // echo "Send SMS to clients Hourly";
