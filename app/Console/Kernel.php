@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use Log;
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -25,6 +27,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        Log::info('Cron job is execute at ' . Carbon::now('Asia/Karachi'));
         $schedule->command('hourly:update')->everyMinute();
         $schedule->command('daily:delete')->dailyAt('23:30');
         $schedule->command('monthly:update')->monthlyOn(5, '22:30'); // Run the task every month on the 5th at 22:30
