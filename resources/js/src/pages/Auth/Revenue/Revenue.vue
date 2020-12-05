@@ -137,13 +137,15 @@ export default {
         let purchaseAmount = 0;
         revenueList.map(record => {
           if(record.type === 'Purchase') {
-            purchaseAmount += record.total;
+            purchaseAmount += parseInt(record.total);
           } else {
-            saleAmount += record.total;
+            saleAmount += parseInt(record.total);
           }
         })
         this.saleAmount = saleAmount;  
         this.purchaseAmount = purchaseAmount;
+        // console.log("Sale Amount: ", this.saleAmount);
+        // console.log("Purchase Amount: ", this.purchaseAmount);
 
       }
     },
