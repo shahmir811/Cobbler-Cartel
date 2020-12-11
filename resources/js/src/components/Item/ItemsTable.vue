@@ -1,10 +1,25 @@
 <template>
     <div class="items-table-component-wrapping-div">
+
+        <div class="row mb-10">
+            <div class="col-md-2 offset-md-9">
+                <a 
+                    href="#" 
+                    class="btn btn-success" 
+                    :class="anyItemSelected ? '' : 'disabled'"
+                    @click.prevent="downloadMultipleBarCodes"
+                >
+                    Download Barcodes
+                </a>
+            </div>
+        </div>
+
         <b-row align-h="center">
           <b-col cols="10">
             <table class="table table-hover">
               <thead>
                 <tr>
+                  <th scope="col"></th>
                   <th scope="col">#</th>
                   <th scope="col">Name</th>
                   <th scope="col">Price (Rs)</th>
@@ -14,6 +29,14 @@
               </thead>
               <tbody>
                 <tr v-for="(item, index) in items" :key="item.id">
+                  <td>
+                    <input 
+                      type="checkbox" 
+                      id="item.item_code" 
+                      :value="item.item_code" 
+                      v-model="selectedItems" 
+                    />
+                  </td>
                   <td>{{ ++index }}</td>
                   <td>{{ item.name }}</td>
                   <td>{{ item.price }}</td>
@@ -40,13 +63,22 @@
 
 import { mapGetters, mapActions} from 'vuex';
 import {generateAndDownloadBarcodeInPDF} from './generateBarcode'; 
+import { getMultipleOrderNumbers } from './generateMultipleBarcodes';
 
 export default {
     name: "ItemsTable",
     computed: { 
       ...mapGetters({
         items: 'items/items'
-      })
+      }),
+      anyItemSelected() {
+        return this.selectedItems.length > 0 ? true : false;
+      }
+    },
+    data() {
+      return { 
+        selectedItems: [],
+      }
     },
     methods: {
       ...mapActions({
@@ -55,6 +87,9 @@ export default {
       }),
       generateAndDownloadBarCode(item_code) {
         generateAndDownloadBarcodeInPDF(item_code);
+      },
+      downloadMultipleBarCodes() {
+        getMultipleOrderNumbers(this.selectedItems);
       },
       onDeleteHandler(id) {
           this.$swal
