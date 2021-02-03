@@ -73,7 +73,7 @@ class OrdersImport implements ToModel, WithHeadingRow
                 "refund" => $row['refund'],
                 "total_after_refund" => $row['total_after_refund'],
                 "quantity_refunded" => $row['qty_refunded'],
-                "quatity_restocked" => $row['qty_restocked'],
+                // "quatity_restocked" => $row['qty_restocked'],
                 "additional_info" => $row['additional_info'],
                 "user_id" => Auth::id(),
                 "statuses_id" => $confirm_id,
