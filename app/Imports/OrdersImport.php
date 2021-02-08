@@ -24,7 +24,7 @@ class OrdersImport implements ToModel, WithHeadingRow
 
         if(!Order::where('order_no', '=', $row['order'])->exists()) {
 
-            $phone = $this->makeProperPhoneNo(trim($row['buyers_phone'],'"'));
+            $phone = $this->makeProperPhoneNo(trim($row['billing_phone'],'"'));
 
             $this->addRecordToInitialOrdersTable($row['delivery_customer'], $row['order'], $row['items_name'], $phone);
 
